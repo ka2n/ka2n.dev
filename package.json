@@ -6,7 +6,7 @@
     "dev": "concurrently yarn:dev:*",
     "dev:next": "next dev",
     "dev:css": "yarn run build:css -w",
-    "build": "yarn run build:css && next build",
+    "build": "NODE_ENV=production yarn run build:css && next build",
     "build:css": "CSS_ENV=build postcss css/index.css --config postcss.config.js -o css/bundle.css",
     "start": "next start"
   },
