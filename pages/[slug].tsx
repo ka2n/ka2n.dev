@@ -2,7 +2,7 @@ import React from "react";
 import { NextPage, GetStaticProps, GetStaticPaths, PageConfig } from "next";
 import { APIClient, Result, Entry, SiteConfig } from "../APIClient";
 import Head from "next/head";
-import DefaultErrorPage from "next/error";
+import DefaultErrorPage from "./_error";
 import unified from "unified";
 import RemarkHTML from "remark-html";
 import RemarkParse from "remark-parse";
