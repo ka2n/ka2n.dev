@@ -52,6 +52,10 @@ export const getServerSideProps: GetServerSideProps<any, EntryQuery> = async (
   const decoded = decoder.decode(imageURL);
 
   res.setHeader("Content-Type", decoded.imageType);
+  res.setHeader(
+    "Cache-Control",
+    "public, max-age=0, stale-while-revalidate=300"
+  );
   res.write(decoded.dataBuffer);
   res.end();
 
