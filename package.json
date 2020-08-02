@@ -13,6 +13,9 @@
   "dependencies": {
     "axios": "^0.19.2",
     "clsx": "^1.1.1",
+    "image-data-uri": "^2.0.1",
+    "konva": "^7.0.4",
+    "konva-node": "^0.11.1",
     "next": "^9.3.3",
     "postcss-preset-env": "^6.7.0",
     "raw-loader": "^4.0.1",
@@ -28,6 +31,7 @@
   "devDependencies": {
     "@types/node": "^14.0.27",
     "@types/react": "^16.9.44",
+    "@types/react-dom": "^16.9.8",
     "concurrently": "^5.2.0",
     "postcss-cli": "^7.1.1",
     "typescript": "^3.9.7"
