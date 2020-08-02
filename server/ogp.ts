@@ -1,10 +1,16 @@
 import Konva from "konva-node";
+import * as path from "path";
+import canvas from "canvas";
 
 export const OGPImage = (props: {
   siteTitle: string;
   title: string;
   authorName: string;
 }) => {
+  const fontPath = path.resolve("public/NotoSansJP-Regular.otf");
+  const fontFamily = "NotoSansJP-Regular.otf";
+  canvas.registerFont(fontPath, { family: fontFamily });
+
   const size = { width: 1200, height: 630 };
 
   const mainSize = { width: 1024, height: size.height * (2 / 3) };
@@ -40,6 +46,7 @@ export const OGPImage = (props: {
     verticalAlign: "middle",
     padding: 5,
     fontSize: 40,
+    fontFamily: fontFamily,
     fill: "#333",
   });
   const siteLabel = new Konva.Label({
@@ -60,6 +67,7 @@ export const OGPImage = (props: {
       align: "center",
       verticalAlign: "middle",
       fontSize: 70,
+      fontFamily: fontFamily,
       fill: "#333",
       lineHeight: 1.25,
     })
@@ -73,6 +81,7 @@ export const OGPImage = (props: {
       ...footerRect,
       text: props.authorName,
       align: "right",
+      fontFamily: fontFamily,
       fontSize: 40,
       fill: "#555",
     })
