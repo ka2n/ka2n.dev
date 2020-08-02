@@ -21,15 +21,25 @@ export class APIClient {
     });
   }
 
+  async preview(id: string, key: string) {
+    return await this.httpClient.get(`/entry/${id}`, {
+      params: {
+        fields: "id",
+        draftKey: key,
+      },
+    });
+  }
+
   async author() {
     return await this.httpClient.get<SiteConfig>("/config");
   }
 
-  async findEntry(slug: string) {
+  async findEntry(slug: string, options?: { draftKey?: string }) {
     const k = slug;
     const ret = await this.httpClient.get<CollectionResponse<Entry>>("/entry", {
       params: {
         filters: `slug[equals]${k}[or]id[equals]${k}`,
+        draftKey: options?.draftKey,
       },
     });
     const content: Entry | null = ret.data.contents[0] || null;
@@ -92,7 +102,10 @@ export type Entry = {
   slug?: string;
   title: string;
   body: string;
+  eyecatch?: string;
+  excerpt?: string;
 };
+
 type EntryKeys = keyof Entry;
 
 export type SiteConfig = {

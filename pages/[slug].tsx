@@ -104,7 +104,11 @@ export const getStaticProps: GetStaticProps<EntryProps, EntryQuery> = async (
     };
   }
 
-  const ret = await Result(APIClient.current.findEntry(ctx.params.slug));
+  const ret = await Result(
+    APIClient.current.findEntry(ctx.params.slug, {
+      draftKey: ctx.previewData?.draftKey,
+    })
+  );
   if (!ret.result?.data) {
     return {
       props: { entry: null, site, error: "ERR_NOT_FOUND" },
