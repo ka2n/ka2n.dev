@@ -23,6 +23,11 @@ const EntryPage: NextPage<EntryProps> = (props) => {
       </>
     );
   }
+  const canonical = `${site.base_url}/${
+    entry.slug ? encodeURIComponent(entry.slug) : entry.id
+  }`;
+  const title = `${entry.title} | ${site.title}`;
+  const excerpt = entry.excerpt ?? entry.body.slice(0, 100);
   return (
     <Layout>
       <Head>
@@ -33,16 +38,24 @@ const EntryPage: NextPage<EntryProps> = (props) => {
             content={`${site.base_url}${entry.og_path}`}
           />
         )}
-        <link
-          key="canonical"
-          rel="canonical"
-          href={`${site.base_url}/${
-            entry.slug ? encodeURIComponent(entry.slug) : entry.id
-          }`}
+        <meta key="og:url" property="og:url" content={canonical} />
+        <meta key="og:type" property="og:type" content="article" />
+        <meta key="og:title" property="og:title" content={title} />
+        <meta
+          key="og:description"
+          property="og:description"
+          content={excerpt}
         />
-        <title key="title">
-          {entry.title} | {site.title}
-        </title>
+        <meta key="og:site_name" property="og:site_name" content={site.title} />
+        {/* <meta key="fb:app_id" property="fb:app_id" content="" /> */}
+        <meta
+          data-hid="twitter:card"
+          property="twitter:card"
+          content="summary"
+        />
+        <meta key="description" property="description" content={excerpt} />
+        <link key="canonical" rel="canonical" href={canonical} />
+        <title key="title">{title}</title>
       </Head>
       <div className="max-w-2xl mx-auto">
         <h1 className="px-2 text-3xl font-semibold">{entry.title}</h1>
@@ -51,7 +64,7 @@ const EntryPage: NextPage<EntryProps> = (props) => {
           <div>{entry.updatedAt}</div>
         </section>
         <div className="px-2 py-2">
-          <div dangerouslySetInnerHTML={{ __html: entry.body }} />
+          <div dangerouslySetInnerHTML={{ __html: entry.html_body }} />
         </div>
         <div>
           <AmpIncludeAmpSocialShare />
@@ -78,7 +91,7 @@ export default EntryPage;
 
 type EntryProps =
   | {
-      entry: Entry & { og_path?: string };
+      entry: Entry & { og_path?: string; html_body: string };
       site: SiteConfig;
     }
   | { entry: null; site?: SiteConfig; error: "ERR_NOT_FOUND" };
@@ -156,7 +169,7 @@ export const getStaticProps: GetStaticProps<EntryProps, EntryQuery> = async (
     props: {
       entry: {
         ...entry,
-        body: bodyHTML.result,
+        html_body: bodyHTML.result,
         og_path,
       },
       site,
