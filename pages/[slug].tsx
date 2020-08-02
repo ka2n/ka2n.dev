@@ -13,7 +13,7 @@ export const config: PageConfig = { amp: true };
 
 const EntryPage: NextPage<EntryProps> = (props) => {
   const { entry, site } = props;
-  if (!entry) {
+  if (!entry || !site) {
     return (
       <>
         <Head>
@@ -25,6 +25,25 @@ const EntryPage: NextPage<EntryProps> = (props) => {
   }
   return (
     <Layout>
+      <Head>
+        {entry.og_path && (
+          <meta
+            key="og:image"
+            property="og:image"
+            content={`${site.base_url}${entry.og_path}`}
+          />
+        )}
+        <link
+          key="canonical"
+          rel="canonical"
+          href={`${site.base_url}/${
+            entry.slug ? encodeURIComponent(entry.slug) : entry.id
+          }`}
+        />
+        <title key="title">
+          {entry.title} | {site.title}
+        </title>
+      </Head>
       <div className="max-w-2xl mx-auto">
         <h1 className="px-2 text-3xl font-semibold">{entry.title}</h1>
         <section className="px-2 py-2 mb-2 text-sm">
@@ -59,7 +78,7 @@ export default EntryPage;
 
 type EntryProps =
   | {
-      entry: Entry;
+      entry: Entry & { og_path?: string };
       site: SiteConfig;
     }
   | { entry: null; site?: SiteConfig; error: "ERR_NOT_FOUND" };
@@ -109,7 +128,8 @@ export const getStaticProps: GetStaticProps<EntryProps, EntryQuery> = async (
       draftKey: ctx.previewData?.draftKey,
     })
   );
-  if (!ret.result?.data) {
+  const entry = ret.result?.data;
+  if (!entry) {
     return {
       props: { entry: null, site, error: "ERR_NOT_FOUND" },
     };
@@ -119,7 +139,7 @@ export const getStaticProps: GetStaticProps<EntryProps, EntryQuery> = async (
     unified()
       .use(RemarkParse)
       .use(RemarkHTML)
-      .process(ret.result.data.body)
+      .process(entry.body)
       .then((r) => {
         return r.toString("utf8") || "";
       })
@@ -130,13 +150,17 @@ export const getStaticProps: GetStaticProps<EntryProps, EntryQuery> = async (
     };
   }
 
+  const og_path = `/ogp/${entry.id}?rev=${Date.parse(entry.updatedAt)}`;
+
   return {
     props: {
       entry: {
-        ...ret.result.data,
+        ...entry,
         body: bodyHTML.result,
+        og_path,
       },
       site,
     },
+    revalidate: 60,
   };
 };

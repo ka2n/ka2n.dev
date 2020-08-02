@@ -117,6 +117,7 @@ export type SiteConfig = {
   top: PageConf;
   author_name: string;
   author_description: string;
+  base_url: string;
 };
 
 export type PageConf = {
