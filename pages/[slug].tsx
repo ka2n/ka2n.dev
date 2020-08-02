@@ -7,6 +7,7 @@ import unified from "unified";
 import RemarkHTML from "remark-html";
 import RemarkParse from "remark-parse";
 import { AmpIncludeAmpSocialShare } from "components/amp/AmpCustomElement";
+import { Layout } from "components/Layout";
 
 export const config: PageConfig = { amp: true };
 
@@ -23,7 +24,7 @@ const EntryPage: NextPage<EntryProps> = (props) => {
     );
   }
   return (
-    <div>
+    <Layout>
       <div className="max-w-2xl mx-auto">
         <h1 className="px-2 text-3xl font-semibold">{entry.title}</h1>
         <section className="px-2 py-2 mb-2 text-sm">
@@ -50,7 +51,7 @@ const EntryPage: NextPage<EntryProps> = (props) => {
         )}
         <hr />
       </div>
-    </div>
+    </Layout>
   );
 };
 
