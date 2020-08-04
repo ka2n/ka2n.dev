@@ -8,8 +8,10 @@ import RemarkHTML from "remark-html";
 import RemarkParse from "remark-parse";
 import { AmpIncludeAmpSocialShare } from "components/amp/AmpCustomElement";
 import { Layout } from "components/Layout";
+import { AuthorIcon } from "components/AuthorIcon";
 
-export const config: PageConfig = { amp: true };
+export const config: PageConfig = { amp: "hybrid" };
+// export const config: PageConfig = { amp: true };
 
 const EntryPage: NextPage<EntryProps> = (props) => {
   const { entry, site } = props;
@@ -29,7 +31,7 @@ const EntryPage: NextPage<EntryProps> = (props) => {
   const title = `${entry.title} | ${site.title}`;
   const excerpt = entry.excerpt ?? entry.body.slice(0, 100);
   return (
-    <Layout>
+    <Layout site={site} _main={{ className: "mx-4 pt-4" }}>
       <Head>
         {entry.og_path && (
           <meta
@@ -57,11 +59,18 @@ const EntryPage: NextPage<EntryProps> = (props) => {
         <link key="canonical" rel="canonical" href={canonical} />
         <title key="title">{title}</title>
       </Head>
-      <div className="max-w-2xl mx-auto">
+      <div className="w-full max-w-screen-md mx-auto">
         <h1 className="px-2 text-3xl font-semibold">{entry.title}</h1>
         <section className="px-2 py-2 mb-2 text-sm">
-          {site && <div className="font-semibold">{site.author_name}</div>}
-          <div>{entry.updatedAt}</div>
+          <div className="flex items-center">
+            <div className="mr-4">
+              <AuthorIcon size="sm" site={site} />
+            </div>
+            <div>
+              <div className="font-semibold">{site.author_name}</div>
+              <div>{entry.updatedAt}</div>
+            </div>
+          </div>
         </section>
         <div className="px-2 py-2">
           <div dangerouslySetInnerHTML={{ __html: entry.html_body }} />
@@ -75,10 +84,18 @@ const EntryPage: NextPage<EntryProps> = (props) => {
         </div>
         {site && (
           <section className="px-2 py-2 mt-2">
-            <h2>{site?.author_name}</h2>
-            <div
-              dangerouslySetInnerHTML={{ __html: site.author_description }}
-            />
+            <div className="flex items-center">
+              <div className="mr-6">
+                <AuthorIcon site={site} />
+              </div>
+              <div>
+                <h2 className="text-base font-bold">{site?.author_name}</h2>
+                <div
+                  className="text-sm text-gray-800"
+                  dangerouslySetInnerHTML={{ __html: site.author_description }}
+                />
+              </div>
+            </div>
           </section>
         )}
         <hr />

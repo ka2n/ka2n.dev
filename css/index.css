@@ -3,4 +3,8 @@
 @tailwind components;
 /* purgecss end ignore */
 
+/* * {
+  outline: 1px solid red;
+} */
+
 @tailwind utilities;

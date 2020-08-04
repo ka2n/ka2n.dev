@@ -1,5 +1,5 @@
 import { APIClient, Result } from "APIClient";
-import { GetServerSideProps, NextPage } from "next";
+import { GetServerSideProps } from "next";
 import { OGPImage } from "server/ogp";
 
 const ogp = () => null;

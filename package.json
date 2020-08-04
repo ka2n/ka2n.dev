@@ -12,6 +12,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@neojp/tailwindcss-line-clamp-utilities": "^1.0.1",
     "axios": "^0.19.2",
     "axios-cache-adapter": "^2.5.0",
     "clsx": "^1.1.1",

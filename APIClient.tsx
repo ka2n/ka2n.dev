@@ -1,5 +1,6 @@
 import axios, { AxiosInstance, AxiosResponse } from "axios";
 import { setupCache, ISetupCache } from "axios-cache-adapter";
+import { Filter } from "konva/types/Node";
 
 export class APIClient {
   private static _instance: APIClient;
@@ -54,38 +55,62 @@ export class APIClient {
     };
   }
 
-  async listEntry<F extends EntryKeys[]>(options?: {
+  async listCollection<
+    F extends CollectionKey[] | undefined = undefined,
+    EF extends EntryKey[] | undefined = undefined
+  >(options?: {
     limit?: number;
     offset?: number;
     orders?: string;
-    fields: F;
+    fields?: F;
+    entryFields?: EF;
     filters?: string;
     draftKey?: string;
-  }): Promise<AxiosResponse<CollectionResponse<Pick<Entry, F[number]>>>>;
+  }): Promise<
+    AxiosResponse<
+      CollectionResponse<
+        Pick<
+          Collection<FilteredEntry<EF>>,
+          F extends CollectionKey[]
+            ? F[number] | (EF extends EntryKey[] ? "entries" : never)
+            : EF extends EntryKey[]
+            ? "entries"
+            : keyof Collection
+        >
+      >
+    >
+  > {
+    return await this.httpClient.get("/collection", {
+      params: {
+        ...options,
+        fields: [
+          ...(options?.fields ?? []),
+          ...(options?.entryFields?.map((f) => `entries.${f}`) ?? []),
+        ].join(","),
+      },
+    });
+  }
+
+  async listEntry<F extends EntryKey[]>(options?: {
+    limit?: number;
+    offset?: number;
+    orders?: string;
+    fields?: F;
+    filters?: string;
+    draftKey?: string;
+  }): Promise<AxiosResponse<CollectionResponse<FilteredEntry<F>>>>;
   async listEntry(options?: {
     limit?: number;
     offset?: number;
     orders?: string;
-    fields?: never;
-    filters?: string;
-    draftKey?: string;
-  }): Promise<AxiosResponse<CollectionResponse<Entry>>>;
-  async listEntry(options?: {
-    limit?: number;
-    offset?: number;
-    orders?: string;
-    fields?: EntryKeys[];
+    fields?: EntryKey[];
     filters?: string;
     draftKey?: string;
   }) {
     return await this.httpClient.get("/entry", {
       params: {
-        limit: 50,
-        offset: 0,
-        orders: options?.orders,
+        ...options,
         fields: options?.fields?.join(","),
-        filters: options?.filters,
-        draftKey: options?.draftKey,
       },
     });
   }
@@ -118,12 +143,26 @@ export type Entry = {
   slug?: string;
   title: string;
   body: string;
-  eyecatch?: string;
+  eyecatch?: ImageRef;
   excerpt?: string;
   pinned?: boolean;
 };
 
-type EntryKeys = keyof Entry;
+type EntryKey = keyof Entry;
+
+type FilteredEntry<K extends EntryKey[] | undefined> = K extends EntryKey[]
+  ? Pick<Entry, K[number]>
+  : Entry;
+
+export type Collection<T extends object = Entry> = {
+  id: string;
+  title: string;
+  description?: string;
+  eyecatch?: ImageRef;
+  entries: T[];
+};
+
+type CollectionKey = keyof Omit<Collection, "entries">;
 
 export type SiteConfig = {
   createdAt: string;
@@ -134,7 +173,11 @@ export type SiteConfig = {
   top: PageConf;
   author_name: string;
   author_description: string;
+  author_icon?: ImageRef;
   base_url: string;
+  eyecatch?: ImageRef;
+  logo?: ImageRef;
+  favicon?: ImageRef;
 };
 
 export type PageConf = {
@@ -142,3 +185,5 @@ export type PageConf = {
   title: string;
   description: string;
 };
+
+type ImageRef = { url: string };

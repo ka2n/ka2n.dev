@@ -9,10 +9,17 @@ const plugins = [
         content: ["./components/**/*.tsx", "./pages/**/*.tsx"],
       },
       theme: {
-        extend: {},
+        extend: {
+          spacing: {
+            "72": "18rem",
+            "84": "21rem",
+            "96": "24rem",
+            side: "240px",
+          },
+        },
       },
       variants: {},
-      plugins: [],
+      plugins: [require("@neojp/tailwindcss-line-clamp-utilities")],
     },
   ],
   "postcss-preset-env",
