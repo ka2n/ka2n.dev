@@ -11,5 +11,6 @@ declare namespace JSX {
   interface IntrinsicElements {
     "amp-script": AmpScript;
     "amp-social-share": any;
+    "amp-img": any;
   }
 }

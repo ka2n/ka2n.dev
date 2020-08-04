@@ -10,8 +10,8 @@ import { AmpIncludeAmpSocialShare } from "components/amp/AmpCustomElement";
 import { Layout } from "components/Layout";
 import { AuthorIcon } from "components/AuthorIcon";
 
-export const config: PageConfig = { amp: "hybrid" };
-// export const config: PageConfig = { amp: true };
+// export const config: PageConfig = { amp: "hybrid" };
+export const config: PageConfig = { amp: true };
 
 const EntryPage: NextPage<EntryProps> = (props) => {
   const { entry, site } = props;

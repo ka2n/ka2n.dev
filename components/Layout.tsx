@@ -4,6 +4,7 @@ import { SiteConfig } from "APIClient";
 import NextLink from "next/link";
 import clsx from "clsx";
 import Head from "next/head";
+import { useAmp } from "next/amp";
 
 export const Layout: React.FC<{
   site: SiteConfig;
@@ -11,6 +12,7 @@ export const Layout: React.FC<{
   _main?: Partial<JSX.IntrinsicElements["div"]>;
   _container?: Partial<JSX.IntrinsicElements["div"]>;
 }> = ({ site, ...props }) => {
+  const amp = useAmp();
   return (
     <div
       {...props._container}
@@ -38,7 +40,19 @@ export const Layout: React.FC<{
           <NextLink href="/">
             <a>
               {site.logo ? (
-                <img src={site.logo?.url} className="h-16" alt={site.title} />
+                amp ? (
+                  <amp-img
+                    src={site.logo.url}
+                    height={64}
+                    width={
+                      (64 / (site.logo_size?.height ?? 64)) *
+                      (site.logo_size?.width ?? 0)
+                    }
+                    alt={site.title}
+                  />
+                ) : (
+                  <img src={site.logo?.url} className="h-16" alt={site.title} />
+                )
               ) : (
                 site.title
               )}

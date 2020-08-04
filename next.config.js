@@ -1,7 +1,7 @@
 module.exports = {
   experimental: {
     amp: {
-      skipValidation: true,
+      skipValidation: false,
     },
   },
 };
