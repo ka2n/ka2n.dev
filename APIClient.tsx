@@ -1,4 +1,5 @@
 import axios, { AxiosInstance, AxiosResponse } from "axios";
+import { setupCache, ISetupCache } from "axios-cache-adapter";
 
 export class APIClient {
   private static _instance: APIClient;
@@ -11,9 +12,12 @@ export class APIClient {
   }
 
   private httpClient: AxiosInstance;
+  private cache?: ISetupCache;
 
   constructor() {
+    this.cache = setupCache({ maxAge: 1000 * 5 });
     this.httpClient = axios.create({
+      adapter: this.cache?.adapter,
       baseURL: process.env.MICROCMS_ENDPOINT,
       headers: {
         "X-API-KEY": process.env.MICROCMS_KEY,
@@ -36,13 +40,14 @@ export class APIClient {
 
   async findEntry(slug: string, options?: { draftKey?: string }) {
     const k = slug;
-    const ret = await this.httpClient.get<CollectionResponse<Entry>>("/entry", {
-      params: {
+    const ret = await Data(
+      this.listEntry({
         filters: `slug[equals]${k}[or]id[equals]${k}`,
+        limit: 1,
         draftKey: options?.draftKey,
-      },
-    });
-    const content: Entry | null = ret.data.contents[0] || null;
+      })
+    );
+    const content: Entry | null = ret.contents[0] || null;
     return {
       ...ret,
       data: content,
@@ -54,29 +59,35 @@ export class APIClient {
     offset?: number;
     orders?: string;
     fields: F;
+    filters?: string;
+    draftKey?: string;
   }): Promise<AxiosResponse<CollectionResponse<Pick<Entry, F[number]>>>>;
   async listEntry(options?: {
     limit?: number;
     offset?: number;
     orders?: string;
     fields?: never;
+    filters?: string;
+    draftKey?: string;
   }): Promise<AxiosResponse<CollectionResponse<Entry>>>;
   async listEntry(options?: {
     limit?: number;
     offset?: number;
     orders?: string;
     fields?: EntryKeys[];
+    filters?: string;
+    draftKey?: string;
   }) {
-    const fields = options?.fields;
-    const topEntries = await this.httpClient.get("/entry", {
+    return await this.httpClient.get("/entry", {
       params: {
         limit: 50,
         offset: 0,
-        orders: "-publishedAt",
-        fields: fields?.join(","),
+        orders: options?.orders,
+        fields: options?.fields?.join(","),
+        filters: options?.filters,
+        draftKey: options?.draftKey,
       },
     });
-    return topEntries;
   }
 }
 
@@ -86,6 +97,10 @@ export function Result<T = any>(
   return p
     .then((r) => ({ result: r, error: null }))
     .catch((e) => ({ result: null, error: e }));
+}
+
+export function Data<T>(r: Promise<AxiosResponse<T>>): Promise<T> {
+  return r.then((r) => r.data);
 }
 
 type CollectionResponse<T> = {
@@ -99,11 +114,13 @@ export type Entry = {
   id: string;
   updatedAt: string;
   createdAt: string;
+  publishedAt?: string;
   slug?: string;
   title: string;
   body: string;
   eyecatch?: string;
   excerpt?: string;
+  pinned?: boolean;
 };
 
 type EntryKeys = keyof Entry;

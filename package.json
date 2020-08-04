@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
+    "axios-cache-adapter": "^2.5.0",
     "clsx": "^1.1.1",
     "image-data-uri": "^2.0.1",
     "konva": "^7.0.4",
