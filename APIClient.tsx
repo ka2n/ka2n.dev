@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosResponse } from "axios";
+import axios, { AxiosInstance, AxiosResponse, AxiosRequestConfig } from "axios";
 import { setupCache, ISetupCache } from "axios-cache-adapter";
 import { Filter } from "konva/types/Node";
 
@@ -39,13 +39,18 @@ export class APIClient {
     return await this.httpClient.get<SiteConfig>("/config");
   }
 
-  async findEntry(slug: string, options?: { draftKey?: string }) {
+  async findEntry(
+    slug: string,
+    options?: { draftKey?: string },
+    config?: Partial<AxiosRequestConfig>
+  ) {
     const k = slug;
     const ret = await Data(
       this.listEntry({
         filters: `slug[equals]${k}[or]id[equals]${k}`,
         limit: 1,
         draftKey: options?.draftKey,
+        config: { ...config, cache: { ignoreCache: !!options?.draftKey } },
       })
     );
     const content: Entry | null = ret.contents[0] || null;
@@ -98,17 +103,24 @@ export class APIClient {
     fields?: F;
     filters?: string;
     draftKey?: string;
+    config?: Partial<AxiosRequestConfig>;
   }): Promise<AxiosResponse<CollectionResponse<FilteredEntry<F>>>>;
-  async listEntry(options?: {
+  async listEntry({
+    config,
+    ...options
+  }: {
     limit?: number;
     offset?: number;
     orders?: string;
     fields?: EntryKey[];
     filters?: string;
     draftKey?: string;
-  }) {
+    config?: Partial<AxiosRequestConfig>;
+  } = {}) {
     return await this.httpClient.get("/entry", {
+      ...config,
       params: {
+        ...config?.params,
         ...options,
         fields: options?.fields?.join(","),
       },
