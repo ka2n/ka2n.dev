@@ -1,19 +1,15 @@
-import React from "react";
-import { NextPage, GetStaticProps, GetStaticPaths, PageConfig } from "next";
-import { APIClient, Result, Entry, SiteConfig } from "../APIClient";
-import Head from "next/head";
-import DefaultErrorPage from "./_error";
-import unified from "unified";
 import { AmpIncludeAmpSocialShare } from "components/amp/AmpCustomElement";
-import { Layout } from "components/Layout";
 import { AuthorIcon } from "components/AuthorIcon";
-import parseHTML from "rehype-parse";
-import stringify from "rehype-stringify";
-import plain from "server/rehype-to-plain";
-import { formatToPlain, formatToAMP } from "Formatter";
+import { Layout } from "components/Layout";
+import { formatToAMP, formatToPlain } from "Formatter";
+import { GetStaticPaths, GetStaticProps, NextPage, PageConfig } from "next";
+import Head from "next/head";
+import React from "react";
+import { APIClient, Entry, Result, SiteConfig } from "../APIClient";
+import DefaultErrorPage from "./_error";
 
 // export const config: PageConfig = { amp: "hybrid" };
-export const config: PageConfig = { amp: true };
+export const config: PageConfig = { amp: "hybrid" };
 
 const EntryPage: NextPage<EntryProps> = (props) => {
   const { entry, site } = props;
@@ -33,7 +29,11 @@ const EntryPage: NextPage<EntryProps> = (props) => {
   const title = `${entry.title} | ${site.title}`;
   const excerpt = entry.excerpt ?? entry.body.slice(0, 100);
   return (
-    <Layout site={site} _main={{ className: "mx-4 pt-4" }}>
+    <Layout
+      preview={props.preview}
+      site={site}
+      _main={{ className: "mx-4 pt-4" }}
+    >
       <Head>
         {entry.og_path && (
           <meta
@@ -59,7 +59,10 @@ const EntryPage: NextPage<EntryProps> = (props) => {
         />
         <meta key="description" property="description" content={excerpt} />
         <link key="canonical" rel="canonical" href={canonical} />
-        <title key="title">{title}</title>
+        <title key="title">
+          {props.preview ? "Preview: " : ""}
+          {title}
+        </title>
       </Head>
       <div className="w-full max-w-screen-md mx-auto">
         <h1 className="px-2 text-3xl font-semibold">{entry.title}</h1>
@@ -111,8 +114,14 @@ type EntryProps =
   | {
       entry: Entry & { og_path?: string; body_amp: string; body_plain: string };
       site: SiteConfig;
+      preview?: boolean;
     }
-  | { entry: null; site?: SiteConfig; error: "ERR_NOT_FOUND" };
+  | {
+      entry: null;
+      site?: SiteConfig;
+      error: "ERR_NOT_FOUND";
+      preview?: boolean;
+    };
 
 type EntryQuery = {
   slug: string;
@@ -139,18 +148,19 @@ export const getStaticPaths: GetStaticPaths<EntryQuery> = async () => {
 export const getStaticProps: GetStaticProps<EntryProps, EntryQuery> = async (
   ctx
 ) => {
+  const preview = !!ctx?.previewData?.draftKey;
   const siteResp = await Result(APIClient.current.author());
   const site = siteResp.result?.data;
   if (!site) {
     return {
-      props: { entry: null, site, error: "ERR_NOT_FOUND" },
+      props: { entry: null, site, error: "ERR_NOT_FOUND", preview },
     };
   }
 
   // slugで取得してなければ探す
   if (!ctx.params?.slug) {
     return {
-      props: { entry: null, site, error: "ERR_NOT_FOUND" },
+      props: { entry: null, site, error: "ERR_NOT_FOUND", preview },
     };
   }
 
@@ -162,21 +172,21 @@ export const getStaticProps: GetStaticProps<EntryProps, EntryQuery> = async (
   const entry = ret.result?.data;
   if (!entry) {
     return {
-      props: { entry: null, site, error: "ERR_NOT_FOUND" },
+      props: { entry: null, site, error: "ERR_NOT_FOUND", preview },
     };
   }
 
   const ampBody = formatToAMP(entry.body);
   if (!ampBody) {
     return {
-      props: { entry: null, site, error: "ERR_NOT_FOUND" },
+      props: { entry: null, site, error: "ERR_NOT_FOUND", preview },
     };
   }
 
   const plainBody = formatToPlain(entry.body);
   if (!plainBody) {
     return {
-      props: { entry: null, site, error: "ERR_NOT_FOUND" },
+      props: { entry: null, site, error: "ERR_NOT_FOUND", preview },
     };
   }
 
@@ -191,6 +201,7 @@ export const getStaticProps: GetStaticProps<EntryProps, EntryQuery> = async (
         og_path,
       },
       site,
+      preview,
     },
     revalidate: 60,
   };

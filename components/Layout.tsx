@@ -8,6 +8,7 @@ import { useAmp } from "next/amp";
 
 export const Layout: React.FC<{
   site: SiteConfig;
+  preview?: boolean;
   _header?: Partial<JSX.IntrinsicElements["div"]>;
   _main?: Partial<JSX.IntrinsicElements["div"]>;
   _container?: Partial<JSX.IntrinsicElements["div"]>;
@@ -29,6 +30,16 @@ export const Layout: React.FC<{
           <link rel="icon" href={site.favicon.url} type="image/svg+html" />
         )}
       </Head>
+      {props.preview && (
+        <div className="bg-pink-700 text-white px-4">
+          <div className="max-w-screen-md mx-auto text-base">
+            現在プレビューモードを表示しています
+            <a className="ml-4 text-sm" href="/api/exit-preview">
+              [終了する]
+            </a>
+          </div>
+        </div>
+      )}
       <header
         {...props._header}
         className={clsx(
