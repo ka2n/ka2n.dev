@@ -1,7 +1,18 @@
 /* purgecss start ignore */
 @tailwind base;
+/* purgecss end ignore */
+
+html {
+  font-feature-settings: "kern";
+}
+
+/* purgecss start ignore */
 @tailwind components;
 /* purgecss end ignore */
+
+.text-palt {
+  font-feature-settings: "palt" 1;
+}
 
 /* * {
   outline: 1px solid red;

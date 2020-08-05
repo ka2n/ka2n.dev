@@ -65,7 +65,9 @@ const EntryPage: NextPage<EntryProps> = (props) => {
         </title>
       </Head>
       <div className="w-full max-w-screen-md mx-auto">
-        <h1 className="px-2 text-3xl font-semibold">{entry.title}</h1>
+        <h1 className="text-palt tracking-wider px-2 text-3xl font-semibold">
+          {entry.title}
+        </h1>
         <section className="px-2 py-2 mb-2 text-sm">
           <div className="flex items-center">
             <div className="mr-4">

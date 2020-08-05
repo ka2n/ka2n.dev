@@ -138,7 +138,7 @@ const EntrySummary = ({
       <div className="px-4 py-2">
         <NextLink {...link}>
           <a>
-            <h3 className="text-xl text-gray-900 font-bold mb-2 mt-2">
+            <h3 className="text-palt tracking-wider text-xl text-gray-900 font-bold mb-2 mt-2">
               {entry.title}
             </h3>
           </a>
@@ -176,7 +176,7 @@ const CollectionSummary = ({
     <NextLink href={`/c/[slug]`} as={`/c/${collection.id}`}>
       <a>
         <div className="px-4 py-2 space-y-2">
-          <h3 className="text-base text-gray-900 font-semibold">
+          <h3 className="text-palt tracking-wider text-base text-gray-900 font-semibold">
             {collection.title}
           </h3>
           <p className="text-gray-700 text-xs line-clamp-3">
