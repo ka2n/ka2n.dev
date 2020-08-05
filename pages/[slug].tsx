@@ -119,7 +119,7 @@ type EntryProps =
   | {
       entry: null;
       site?: SiteConfig;
-      error: "ERR_NOT_FOUND";
+      error: string;
       preview?: boolean;
     };
 
@@ -160,7 +160,7 @@ export const getStaticProps: GetStaticProps<EntryProps, EntryQuery> = async (
   // slugで取得してなければ探す
   if (!ctx.params?.slug) {
     return {
-      props: { entry: null, site, error: "ERR_NOT_FOUND", preview },
+      props: { entry: null, site, error: "ERR_NOT_FOUND_SLUG", preview },
     };
   }
 
@@ -172,21 +172,21 @@ export const getStaticProps: GetStaticProps<EntryProps, EntryQuery> = async (
   const entry = ret.result?.data;
   if (!entry) {
     return {
-      props: { entry: null, site, error: "ERR_NOT_FOUND", preview },
+      props: { entry: null, site, error: "ERR_NOT_FOUND_ENTRY", preview },
     };
   }
 
   const ampBody = formatToAMP(entry.body);
   if (!ampBody) {
     return {
-      props: { entry: null, site, error: "ERR_NOT_FOUND", preview },
+      props: { entry: null, site, error: "ERR_BUILD_AMP", preview },
     };
   }
 
   const plainBody = formatToPlain(entry.body);
   if (!plainBody) {
     return {
-      props: { entry: null, site, error: "ERR_NOT_FOUND", preview },
+      props: { entry: null, site, error: "ERR_BUILD_PLAIN", preview },
     };
   }
 
