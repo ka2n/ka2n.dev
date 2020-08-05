@@ -1,15 +1,18 @@
 import { AmpIncludeAmpSocialShare } from "components/amp/AmpCustomElement";
 import { AuthorIcon } from "components/AuthorIcon";
+import { FooterAuthorDesc } from "components/FooterAuthorDesc";
 import { Layout } from "components/Layout";
+import { PageLevelEyeCatch } from "components/PageLevelEyeCatch";
 import { formatToAMP, formatToPlain } from "Formatter";
 import { GetStaticPaths, GetStaticProps, NextPage, PageConfig } from "next";
+import { useAmp } from "next/amp";
 import Head from "next/head";
 import React from "react";
-import { APIClient, Entry, Result, SiteConfig } from "../APIClient";
+import { APIClient, RenderedEntry, Result, SiteConfig } from "../APIClient";
 import DefaultErrorPage from "./_error";
 
-export const config: PageConfig = { amp: true };
-// export const config: PageConfig = { amp: "hybrid" };
+// export const config: PageConfig = { amp: true };
+export const config: PageConfig = { amp: "hybrid" };
 
 const EntryPage: NextPage<EntryProps> = (props) => {
   const { entry, site } = props;
@@ -28,12 +31,10 @@ const EntryPage: NextPage<EntryProps> = (props) => {
   }`;
   const title = `${entry.title} | ${site.title}`;
   const excerpt = entry.excerpt ?? entry.body.slice(0, 100);
+  const amp = useAmp();
+
   return (
-    <Layout
-      preview={props.preview}
-      site={site}
-      _main={{ className: "mx-4 pt-4" }}
-    >
+    <Layout preview={props.preview} site={site}>
       <Head>
         {entry.og_path && (
           <meta
@@ -64,8 +65,9 @@ const EntryPage: NextPage<EntryProps> = (props) => {
           {title}
         </title>
       </Head>
+      {entry.eyecatch && <PageLevelEyeCatch image={entry.eyecatch} />}
       <div className="w-full max-w-screen-md mx-auto">
-        <h1 className="text-palt tracking-wider px-2 text-3xl font-semibold">
+        <h1 className="text-palt tracking-wider pt-4 px-2 text-3xl font-semibold">
           {entry.title}
         </h1>
         <section className="px-2 py-2 mb-2 text-sm">
@@ -79,8 +81,12 @@ const EntryPage: NextPage<EntryProps> = (props) => {
             </div>
           </div>
         </section>
-        <div className="px-2 py-2">
-          <div dangerouslySetInnerHTML={{ __html: entry.body_amp }} />
+        <div className="px-4 py-4">
+          <div
+            dangerouslySetInnerHTML={{
+              __html: amp ? entry.body_amp : entry.body,
+            }}
+          />
         </div>
         <div>
           <AmpIncludeAmpSocialShare />
@@ -89,21 +95,7 @@ const EntryPage: NextPage<EntryProps> = (props) => {
           <amp-social-share type="twitter"></amp-social-share>
           <amp-social-share type="line"></amp-social-share>
         </div>
-        {site && (
-          <section className="px-2 py-2 mt-2">
-            <div className="flex items-center">
-              <div className="mr-6">
-                <AuthorIcon site={site} />
-              </div>
-              <div>
-                <h2 className="text-base font-bold">{site?.author_name}</h2>
-                <p className="text-sm text-gray-800">
-                  {site.author_description}
-                </p>
-              </div>
-            </div>
-          </section>
-        )}
+        <FooterAuthorDesc site={site} className={"mt-2"} />
         <hr />
       </div>
     </Layout>
@@ -114,7 +106,8 @@ export default EntryPage;
 
 type EntryProps =
   | {
-      entry: Entry & { og_path?: string; body_amp: string; body_plain: string };
+      entry: RenderedEntry &
+        Required<Pick<RenderedEntry, "body_amp" | "body_plain">>;
       site: SiteConfig;
       preview?: boolean;
     }
@@ -160,7 +153,6 @@ export const getStaticProps: GetStaticProps<EntryProps, EntryQuery> = async (
     };
   }
 
-  // slugで取得してなければ探す
   if (!ctx.params?.slug) {
     return {
       props: { entry: null, site, error: "ERR_NOT_FOUND_SLUG", preview },
@@ -182,21 +174,7 @@ export const getStaticProps: GetStaticProps<EntryProps, EntryQuery> = async (
   }
 
   const ampBody = formatToAMP(entry.body);
-  if (!ampBody) {
-    return {
-      props: { entry: null, site, error: "ERR_BUILD_AMP", preview },
-      revalidate: 10,
-    };
-  }
-
   const plainBody = formatToPlain(entry.body);
-  if (!plainBody) {
-    return {
-      props: { entry: null, site, error: "ERR_BUILD_PLAIN", preview },
-      revalidate: 10,
-    };
-  }
-
   const og_path = `/ogp/${entry.id}?rev=${Date.parse(entry.updatedAt)}`;
 
   return {

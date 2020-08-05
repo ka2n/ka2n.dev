@@ -1,6 +1,5 @@
 import axios, { AxiosInstance, AxiosResponse, AxiosRequestConfig } from "axios";
 import { setupCache, ISetupCache } from "axios-cache-adapter";
-import { Filter } from "konva/types/Node";
 
 export class APIClient {
   private static _instance: APIClient;
@@ -160,6 +159,12 @@ export type Entry = {
   pinned?: boolean;
 };
 
+export type RenderedEntry = Entry & {
+  body_plain?: string;
+  body_amp?: string;
+  og_path?: string;
+};
+
 type EntryKey = keyof Entry;
 
 type FilteredEntry<K extends EntryKey[] | undefined> = K extends EntryKey[]
@@ -168,6 +173,7 @@ type FilteredEntry<K extends EntryKey[] | undefined> = K extends EntryKey[]
 
 export type Collection<T extends object = Entry> = {
   id: string;
+  slug?: string;
   title: string;
   description?: string;
   eyecatch?: ImageRef;
@@ -199,6 +205,6 @@ export type PageConf = {
   description: string;
 };
 
-type ImageRef = { url: string };
+export type ImageRef = { url: string };
 
 type ImageSize = { width: number; height: number };

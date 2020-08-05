@@ -1,20 +1,23 @@
 import {
   APIClient,
-  Data,
-  Entry,
-  SiteConfig,
-  Result,
   Collection,
   CollectionResponse,
+  Data,
+  Entry,
+  Result,
+  SiteConfig,
+  RenderedEntry,
 } from "APIClient";
-import { Layout } from "components/Layout";
-import { GetStaticProps, NextPage, PageConfig } from "next";
-import Head from "next/head";
-import NextLink from "next/link";
 import clsx from "clsx";
 import { AuthorIcon } from "components/AuthorIcon";
-import produce from "immer";
+import { CollectionCard } from "components/CollectionCard";
+import { EntryCard } from "components/EntryCard";
+import { Layout } from "components/Layout";
+import { PageLevelEyeCatch } from "components/PageLevelEyeCatch";
 import { formatToPlain } from "Formatter";
+import produce from "immer";
+import { GetStaticProps, NextPage, PageConfig } from "next";
+import Head from "next/head";
 
 export const config: PageConfig = {};
 
@@ -30,14 +33,7 @@ const Home: NextPage<HomePageProps> = (props) => {
         <title key="title">{site.title}</title>
       </Head>
       <div className="-mx-4 bg-white">
-        {site.eyecatch && (
-          <div
-            className="h-64 bg-cover bg-center overflow-hidden"
-            style={{
-              backgroundImage: `url(${site.eyecatch.url})`,
-            }}
-          ></div>
-        )}
+        {site.eyecatch && <PageLevelEyeCatch image={site.eyecatch} />}
         <div className="mx-4">
           <div className="py-6 max-w-screen-md mx-auto">
             <div className="flex items-center">
@@ -45,7 +41,9 @@ const Home: NextPage<HomePageProps> = (props) => {
                 <AuthorIcon site={site} />
               </div>
               <div>
-                <h1 className="text-2xl font-bold mb-2">{site.author_name}</h1>
+                <h1 className="text-xl text-gray-900 font-bold mb-2">
+                  {site.author_name}
+                </h1>
                 <p className="text-sm text-gray-800">
                   {site.author_description}
                 </p>
@@ -61,7 +59,7 @@ const Home: NextPage<HomePageProps> = (props) => {
         )}
       >
         <div className="w-full">
-          <ul className="ul space-y-4">
+          <ul className="space-y-4">
             {pinnedEntry && (
               <li>
                 <div className="-mt-6 mb-1">
@@ -70,25 +68,25 @@ const Home: NextPage<HomePageProps> = (props) => {
                     固定された記事
                   </span>
                 </div>
-                <EntrySummary entry={pinnedEntry} />
+                <EntryCard entry={pinnedEntry} />
               </li>
             )}
             {props.topEntries.map((entry, idx) => {
               if (idx < 10 && pinnedEntry?.id === entry.id) return null; // 画面の上の方にpinnedがダブらないようにする
               return (
                 <li key={entry.id}>
-                  <EntrySummary entry={entry} />
+                  <EntryCard entry={entry} />
                 </li>
               );
             })}
           </ul>
         </div>
         <aside className="ml-4 hidden md:w-side md:block">
-          <ul>
+          <ul className="space-y-4">
             {props.asideContents.map((entry) => {
               return (
                 <li key={entry.id}>
-                  <CollectionSummary collection={entry} />
+                  <CollectionCard collection={entry} />
                 </li>
               );
             })}
@@ -116,83 +114,11 @@ const PinIcon = () => (
   </svg>
 );
 
-const EntrySummary = ({
-  entry,
-}: {
-  entry: Pick<Entry, "id" | "slug" | "title" | "excerpt" | "body" | "eyecatch">;
-}) => {
-  const link = {
-    href: `/[slug]`,
-    as: `/${entry.slug ?? entry.id}`,
-  };
-  return (
-    <div className="rounded overflow-hidden border bg-white">
-      {entry.eyecatch?.url && (
-        <div
-          className="h-64 w-full bg-cover bg-center rounded-t overflow-hidden"
-          style={{
-            backgroundImage: `url(${entry.eyecatch?.url})`,
-          }}
-        ></div>
-      )}
-      <div className="px-4 py-2">
-        <NextLink {...link}>
-          <a>
-            <h3 className="text-palt tracking-wider text-xl text-gray-900 font-bold mb-2 mt-2">
-              {entry.title}
-            </h3>
-          </a>
-        </NextLink>
-        <p className="text-gray-700 text-base">
-          {entry.excerpt ?? entry.body?.slice(0, 140)}
-        </p>
-        <p className="text-sm my-6">
-          <NextLink {...link}>
-            <a className="text-blue-500 hover:text-blue-700">続きを読む</a>
-          </NextLink>
-        </p>
-      </div>
-    </div>
-  );
-};
-
-const CollectionSummary = ({
-  collection,
-}: {
-  collection: Pick<
-    Collection<Pick<Entry, "id">>,
-    "id" | "title" | "description" | "entries" | "eyecatch"
-  >;
-}) => (
-  <div className="rounded overflow-hidden border-4 border-double bg-white">
-    {collection.eyecatch && (
-      <div
-        className="h-24 w-full bg-cover bg-center rounded-t overflow-hidden"
-        style={{
-          backgroundImage: `url(${collection.eyecatch.url})`,
-        }}
-      ></div>
-    )}
-    <NextLink href={`/c/[slug]`} as={`/c/${collection.id}`}>
-      <a>
-        <div className="px-4 py-2 space-y-2">
-          <h3 className="text-palt tracking-wider text-base text-gray-900 font-semibold">
-            {collection.title}
-          </h3>
-          <p className="text-gray-700 text-xs line-clamp-3">
-            {collection.description}
-          </p>
-        </div>
-      </a>
-    </NextLink>
-  </div>
-);
-
 export default Home;
 
 type TopPageEntry = Pick<
-  Entry,
-  "createdAt" | "excerpt" | "title" | "slug" | "id" | "body"
+  RenderedEntry,
+  "createdAt" | "excerpt" | "title" | "slug" | "id" | "body" | "body_plain"
 >;
 
 type AsideContent = Pick<
@@ -219,9 +145,9 @@ export const getStaticProps: GetStaticProps<HomePageProps, any> = async (
           filters: `pinned[exists]`,
         })
       ).then(
-        produce((r: CollectionResponse<Pick<Entry, "body">>) => {
+        produce((r: CollectionResponse<TopPageEntry>) => {
           r.contents.forEach((e) => {
-            e.body = formatToPlain(e.body);
+            e.body_plain = formatToPlain(e.body);
           });
         })
       )
@@ -244,9 +170,9 @@ export const getStaticProps: GetStaticProps<HomePageProps, any> = async (
       fields: ["title", "slug", "id", "createdAt", "excerpt", "body"],
     })
   ).then(
-    produce((r: CollectionResponse<Pick<Entry, "body">>) => {
+    produce((r: CollectionResponse<TopPageEntry>) => {
       r.contents.forEach((e) => {
-        e.body = formatToPlain(e.body);
+        e.body_plain = formatToPlain(e.body);
       });
     })
   );

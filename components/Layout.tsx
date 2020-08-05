@@ -63,7 +63,11 @@ export const Layout: React.FC<{
                     alt={site.title}
                   />
                 ) : (
-                  <img src={site.logo?.url} className="h-16" alt={site.title} />
+                  <img
+                    src={site.logo?.url}
+                    className="h-16 object-contain"
+                    alt={site.title}
+                  />
                 )
               ) : (
                 site.title
