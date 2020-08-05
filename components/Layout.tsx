@@ -29,6 +29,7 @@ export const Layout: React.FC<{
         {site.favicon && (
           <link rel="icon" href={site.favicon.url} type="image/svg+html" />
         )}
+        <meta key="og:site_name" property="og:site_name" content={site.title} />
       </Head>
       {props.preview && (
         <div className="bg-pink-700 text-white px-4">

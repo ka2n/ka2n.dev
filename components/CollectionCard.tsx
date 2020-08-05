@@ -5,7 +5,7 @@ export const CollectionCard = ({
 }: {
   collection: Pick<
     Collection<Pick<Entry, "id">>,
-    "id" | "title" | "description" | "entries" | "eyecatch"
+    "id" | "title" | "description" | "entries" | "eyecatch" | "slug"
   >;
 }) => (
   <div className="rounded overflow-hidden border-4 border-double bg-white">
@@ -17,7 +17,10 @@ export const CollectionCard = ({
         }}
       ></div>
     )}
-    <NextLink href={`/c/[slug]`} as={`/c/${collection.id}`}>
+    <NextLink
+      href={`/c/[slug]`}
+      as={`/c/${encodeURIComponent(collection.slug ?? collection.id)}`}
+    >
       <a>
         <div className="px-4 py-2 space-y-2">
           <h3 className="text-palt tracking-wider text-base text-gray-900 font-semibold">

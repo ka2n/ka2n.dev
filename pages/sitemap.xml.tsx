@@ -1,5 +1,5 @@
 import { NextPage, GetServerSideProps } from "next";
-import { APIClient } from "APIClient";
+import { APIClient, Data } from "APIClient";
 
 const createSitemap = (
   pages: {
@@ -33,12 +33,28 @@ export const getServerSideProps: GetServerSideProps = async ({ res, req }) => {
   const hostname = req.headers.host ?? "localhost:3000";
   res.setHeader("Content-Type", "application/xml");
 
-  const latestEntries = await APIClient.current.listEntry({
-    limit: 50,
-    orders: "-updatedAt",
-    fields: ["id", "slug", "updatedAt"],
-  });
-  const indexModDate = latestEntries.data.contents[0]?.updatedAt ?? undefined;
+  let modDates: (string | undefined)[] = [];
+
+  const latestEntries = await Data(
+    APIClient.current.listEntry({
+      limit: 50,
+      orders: "-updatedAt",
+      fields: ["id", "slug", "updatedAt"],
+    })
+  );
+  modDates.push(latestEntries.contents[0]?.updatedAt);
+
+  const latestCollections = await Data(
+    APIClient.current.listCollection({
+      limit: 50,
+      orders: "-updatedAt",
+      fields: ["id", "slug", "updatedAt"],
+    })
+  );
+  modDates.push(latestCollections.contents[0]?.updatedAt);
+
+  const dates = modDates.filter((v) => v).map((v) => +new Date(v!));
+  const indexModDate = new Date(Math.max(...dates));
 
   res.write(
     createSitemap([
@@ -46,10 +62,16 @@ export const getServerSideProps: GetServerSideProps = async ({ res, req }) => {
         loc: `https://${hostname}/`,
         lastmod: indexModDate ? new Date(indexModDate) : undefined,
       },
-      ...latestEntries.data.contents.map((entry) => ({
-        loc: `https://${hostname}/${
-          entry.slug ? encodeURIComponent(entry.slug) : entry.id
-        }`,
+      ...latestEntries.contents.map((entry) => ({
+        loc: `https://${hostname}/${encodeURIComponent(
+          entry.slug ?? entry.id
+        )}`,
+        lastmod: new Date(entry.updatedAt),
+      })),
+      ...latestCollections.contents.map((entry) => ({
+        loc: `https://${hostname}/${encodeURIComponent(
+          entry.slug ?? entry.id
+        )}`,
         lastmod: new Date(entry.updatedAt),
       })),
     ])

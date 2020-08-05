@@ -11,8 +11,8 @@ import React from "react";
 import { APIClient, RenderedEntry, Result, SiteConfig } from "../APIClient";
 import DefaultErrorPage from "./_error";
 
-// export const config: PageConfig = { amp: true };
-export const config: PageConfig = { amp: "hybrid" };
+export const config: PageConfig = { amp: true };
+// export const config: PageConfig = { amp: "hybrid" };
 
 const EntryPage: NextPage<EntryProps> = (props) => {
   const { entry, site } = props;
@@ -26,9 +26,9 @@ const EntryPage: NextPage<EntryProps> = (props) => {
       </>
     );
   }
-  const canonical = `${site.base_url}/${
-    entry.slug ? encodeURIComponent(entry.slug) : entry.id
-  }`;
+  const canonical = `${site.base_url}/${encodeURIComponent(
+    entry.slug ?? entry.id
+  )}`;
   const title = `${entry.title} | ${site.title}`;
   const excerpt = entry.excerpt ?? entry.body.slice(0, 100);
   const amp = useAmp();
@@ -51,7 +51,6 @@ const EntryPage: NextPage<EntryProps> = (props) => {
           property="og:description"
           content={excerpt}
         />
-        <meta key="og:site_name" property="og:site_name" content={site.title} />
         {/* <meta key="fb:app_id" property="fb:app_id" content="" /> */}
         <meta
           data-hid="twitter:card"
@@ -133,7 +132,7 @@ export const getStaticPaths: GetStaticPaths<EntryQuery> = async () => {
   return {
     paths: topEntries.data.contents.map((entry) => ({
       params: {
-        slug: (entry.slug && encodeURIComponent(entry.slug)) || entry.id,
+        slug: encodeURIComponent(entry.slug ?? entry.id),
       },
     })),
     fallback: true,

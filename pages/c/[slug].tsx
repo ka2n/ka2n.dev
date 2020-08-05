@@ -1,30 +1,29 @@
 import {
   APIClient,
-  Data,
-  SiteConfig,
   Collection,
-  Entry,
-  Result,
+  Data,
   RenderedEntry,
+  Result,
+  SiteConfig,
 } from "APIClient";
-import { Layout } from "components/Layout";
-import { GetStaticProps, NextPage, GetStaticPaths } from "next";
-import React from "react";
-import Head from "next/head";
-import DefaultErrorPage from "../_error";
-import { PageLevelEyeCatch } from "components/PageLevelEyeCatch";
 import { EntryCard } from "components/EntryCard";
 import { FooterAuthorDesc } from "components/FooterAuthorDesc";
-import produce from "immer";
+import { Layout } from "components/Layout";
+import { PageLevelEyeCatch } from "components/PageLevelEyeCatch";
 import { formatToAMP, formatToPlain } from "Formatter";
+import produce from "immer";
+import { GetStaticPaths, GetStaticProps, NextPage } from "next";
+import Head from "next/head";
+import React from "react";
+import DefaultErrorPage from "../_error";
 
 const CollectionPage: NextPage<CollectionProps> = ({
   site,
   error,
   preview,
-  collection,
+  collection: col,
 }) => {
-  if (!site || !collection) {
+  if (!site || !col) {
     return (
       <>
         <Head>
@@ -34,26 +33,29 @@ const CollectionPage: NextPage<CollectionProps> = ({
       </>
     );
   }
+  const canonical = `${site.base_url}/c/${encodeURIComponent(
+    col.slug ?? col.id
+  )}`;
+  const title = `${col.title} | ${site.title}`;
   return (
     <Layout site={site} preview={preview}>
       <Head>
         <title key="title">
           {preview ? "Preview: " : ""}
-          {collection.title}
+          {title}
         </title>
+        <link key="canonical" rel="canonical" href={canonical} />
       </Head>
-      {collection.eyecatch && <PageLevelEyeCatch image={collection.eyecatch} />}
+      {col.eyecatch && <PageLevelEyeCatch image={col.eyecatch} />}
       <div className="w-full max-w-screen-md mt-4 px-2 pt-2 mx-auto">
         <h1 className="text-gray-900 text-palt tracking-wider text-2xl font-semibold my-4">
-          {collection.title}
+          {col.title}
         </h1>
-        <div className="text-gray-900 text-sm my-4">
-          {collection.description}
-        </div>
+        <div className="text-gray-900 text-sm my-4">{col.description}</div>
 
         <div className="w-full my-10">
           <ul className="space-y-4">
-            {collection.entries.map((entry) => (
+            {col.entries.map((entry) => (
               <li key={entry.id}>
                 <EntryCard entry={entry} />
               </li>

@@ -10,7 +10,7 @@ export const EntryCard = ({
 }) => {
   const link = {
     href: `/[slug]`,
-    as: `/${entry.slug ?? entry.id}`,
+    as: `/${encodeURIComponent(entry.slug ?? entry.id)}`,
   };
   return (
     <div className="rounded overflow-hidden border bg-white">

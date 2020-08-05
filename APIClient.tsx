@@ -206,6 +206,9 @@ export type Collection<T extends object = Entry> = {
   description?: string;
   eyecatch?: ImageRef;
   entries: T[];
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
 };
 
 type CollectionKey = keyof Omit<Collection, "entries">;

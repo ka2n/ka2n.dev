@@ -157,7 +157,7 @@ export const getStaticProps: GetStaticProps<HomePageProps, any> = async (
   const asideContents = await Data(
     APIClient.current.listCollection({
       limit: 5,
-      fields: ["id", "title", "description", "eyecatch"],
+      fields: ["id", "slug", "title", "description", "eyecatch"],
       entryFields: ["id"],
     })
   );
