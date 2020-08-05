@@ -154,6 +154,7 @@ export const getStaticProps: GetStaticProps<EntryProps, EntryQuery> = async (
   if (!site) {
     return {
       props: { entry: null, site, error: "ERR_NOT_FOUND", preview },
+      revalidate: 10,
     };
   }
 
@@ -161,6 +162,7 @@ export const getStaticProps: GetStaticProps<EntryProps, EntryQuery> = async (
   if (!ctx.params?.slug) {
     return {
       props: { entry: null, site, error: "ERR_NOT_FOUND_SLUG", preview },
+      revalidate: 10,
     };
   }
 
@@ -173,6 +175,7 @@ export const getStaticProps: GetStaticProps<EntryProps, EntryQuery> = async (
   if (!entry) {
     return {
       props: { entry: null, site, error: "ERR_NOT_FOUND_ENTRY", preview },
+      revalidate: 10,
     };
   }
 
@@ -180,6 +183,7 @@ export const getStaticProps: GetStaticProps<EntryProps, EntryQuery> = async (
   if (!ampBody) {
     return {
       props: { entry: null, site, error: "ERR_BUILD_AMP", preview },
+      revalidate: 10,
     };
   }
 
@@ -187,6 +191,7 @@ export const getStaticProps: GetStaticProps<EntryProps, EntryQuery> = async (
   if (!plainBody) {
     return {
       props: { entry: null, site, error: "ERR_BUILD_PLAIN", preview },
+      revalidate: 10,
     };
   }
 
