@@ -48,6 +48,7 @@ export const Layout: React.FC<{
                       (64 / (site.logo_size?.height ?? 64)) *
                       (site.logo_size?.width ?? 0)
                     }
+                    layout="intrinsic"
                     alt={site.title}
                   />
                 ) : (

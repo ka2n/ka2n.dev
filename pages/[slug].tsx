@@ -4,11 +4,13 @@ import { APIClient, Result, Entry, SiteConfig } from "../APIClient";
 import Head from "next/head";
 import DefaultErrorPage from "./_error";
 import unified from "unified";
-import RemarkHTML from "remark-html";
-import RemarkParse from "remark-parse";
 import { AmpIncludeAmpSocialShare } from "components/amp/AmpCustomElement";
 import { Layout } from "components/Layout";
 import { AuthorIcon } from "components/AuthorIcon";
+import parseHTML from "rehype-parse";
+import stringify from "rehype-stringify";
+import plain from "server/rehype-to-plain";
+import { formatToPlain, formatToAMP } from "Formatter";
 
 // export const config: PageConfig = { amp: "hybrid" };
 export const config: PageConfig = { amp: true };
@@ -73,7 +75,7 @@ const EntryPage: NextPage<EntryProps> = (props) => {
           </div>
         </section>
         <div className="px-2 py-2">
-          <div dangerouslySetInnerHTML={{ __html: entry.html_body }} />
+          <div dangerouslySetInnerHTML={{ __html: entry.body_amp }} />
         </div>
         <div>
           <AmpIncludeAmpSocialShare />
@@ -90,10 +92,9 @@ const EntryPage: NextPage<EntryProps> = (props) => {
               </div>
               <div>
                 <h2 className="text-base font-bold">{site?.author_name}</h2>
-                <div
-                  className="text-sm text-gray-800"
-                  dangerouslySetInnerHTML={{ __html: site.author_description }}
-                />
+                <p className="text-sm text-gray-800">
+                  {site.author_description}
+                </p>
               </div>
             </div>
           </section>
@@ -108,7 +109,7 @@ export default EntryPage;
 
 type EntryProps =
   | {
-      entry: Entry & { og_path?: string; html_body: string };
+      entry: Entry & { og_path?: string; body_amp: string; body_plain: string };
       site: SiteConfig;
     }
   | { entry: null; site?: SiteConfig; error: "ERR_NOT_FOUND" };
@@ -165,16 +166,15 @@ export const getStaticProps: GetStaticProps<EntryProps, EntryQuery> = async (
     };
   }
 
-  const bodyHTML = await Result(
-    unified()
-      .use(RemarkParse)
-      .use(RemarkHTML)
-      .process(entry.body)
-      .then((r) => {
-        return r.toString("utf8") || "";
-      })
-  );
-  if (!bodyHTML.result) {
+  const ampBody = formatToAMP(entry.body);
+  if (!ampBody) {
+    return {
+      props: { entry: null, site, error: "ERR_NOT_FOUND" },
+    };
+  }
+
+  const plainBody = formatToPlain(entry.body);
+  if (!plainBody) {
     return {
       props: { entry: null, site, error: "ERR_NOT_FOUND" },
     };
@@ -186,7 +186,8 @@ export const getStaticProps: GetStaticProps<EntryProps, EntryQuery> = async (
     props: {
       entry: {
         ...entry,
-        html_body: bodyHTML.result,
+        body_amp: ampBody,
+        body_plain: plainBody,
         og_path,
       },
       site,

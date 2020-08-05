@@ -5,6 +5,7 @@ import {
   SiteConfig,
   Result,
   Collection,
+  CollectionResponse,
 } from "APIClient";
 import { Layout } from "components/Layout";
 import { GetStaticProps, NextPage, PageConfig } from "next";
@@ -12,6 +13,8 @@ import Head from "next/head";
 import NextLink from "next/link";
 import clsx from "clsx";
 import { AuthorIcon } from "components/AuthorIcon";
+import produce from "immer";
+import { formatToPlain } from "Formatter";
 
 export const config: PageConfig = {};
 
@@ -43,10 +46,9 @@ const Home: NextPage<HomePageProps> = (props) => {
               </div>
               <div>
                 <h1 className="text-2xl font-bold mb-2">{site.author_name}</h1>
-                <div
-                  className="text-sm text-gray-800"
-                  dangerouslySetInnerHTML={{ __html: site.author_description }}
-                ></div>
+                <p className="text-sm text-gray-800">
+                  {site.author_description}
+                </p>
               </div>
             </div>
           </div>
@@ -216,6 +218,12 @@ export const getStaticProps: GetStaticProps<HomePageProps, any> = async (
           fields: ["title", "slug", "id", "createdAt", "excerpt", "body"],
           filters: `pinned[exists]`,
         })
+      ).then(
+        produce((r: CollectionResponse<Pick<Entry, "body">>) => {
+          r.contents.forEach((e) => {
+            e.body = formatToPlain(e.body);
+          });
+        })
       )
     )
   ).result?.contents[0];
@@ -234,6 +242,12 @@ export const getStaticProps: GetStaticProps<HomePageProps, any> = async (
       offset: 0,
       orders: "-publishedAt",
       fields: ["title", "slug", "id", "createdAt", "excerpt", "body"],
+    })
+  ).then(
+    produce((r: CollectionResponse<Pick<Entry, "body">>) => {
+      r.contents.forEach((e) => {
+        e.body = formatToPlain(e.body);
+      });
     })
   );
 

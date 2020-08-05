@@ -128,7 +128,7 @@ export function Data<T>(r: Promise<AxiosResponse<T>>): Promise<T> {
   return r.then((r) => r.data);
 }
 
-type CollectionResponse<T> = {
+export type CollectionResponse<T> = {
   contents: T[];
   totalCount: number;
   offset: number;
