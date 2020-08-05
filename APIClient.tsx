@@ -62,7 +62,10 @@ export class APIClient {
   async listCollection<
     F extends CollectionKey[] | undefined = undefined,
     EF extends EntryKey[] | undefined = undefined
-  >(options?: {
+  >({
+    config,
+    ...options
+  }: {
     limit?: number;
     offset?: number;
     orders?: string;
@@ -70,6 +73,7 @@ export class APIClient {
     entryFields?: EF;
     filters?: string;
     draftKey?: string;
+    config?: Partial<AxiosRequestConfig>;
   }): Promise<
     AxiosResponse<
       CollectionResponse<
@@ -85,7 +89,9 @@ export class APIClient {
     >
   > {
     return await this.httpClient.get("/collection", {
+      ...config,
       params: {
+        ...config?.params,
         ...options,
         fields: [
           ...(options?.fields ?? []),
@@ -93,6 +99,28 @@ export class APIClient {
         ].join(","),
       },
     });
+  }
+
+  async findCollection(
+    slug: string,
+    options?: { draftKey?: string },
+    config?: Partial<AxiosRequestConfig>
+  ) {
+    const k = slug;
+    const ret = await Data(
+      this.listCollection({
+        filters: `slug[equals]${k}[or]id[equals]${k}`,
+        limit: 1,
+        draftKey: options?.draftKey,
+        config: { ...config, cache: { ignoreCache: !!options?.draftKey } },
+      })
+    );
+    const content: Collection<Entry> | null = ret.contents[0] || null;
+    return {
+      ...ret,
+      contents: undefined,
+      data: content,
+    };
   }
 
   async listEntry<F extends EntryKey[]>(options?: {
