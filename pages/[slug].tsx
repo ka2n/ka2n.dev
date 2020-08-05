@@ -8,8 +8,8 @@ import React from "react";
 import { APIClient, Entry, Result, SiteConfig } from "../APIClient";
 import DefaultErrorPage from "./_error";
 
+export const config: PageConfig = { amp: true };
 // export const config: PageConfig = { amp: "hybrid" };
-export const config: PageConfig = { amp: "hybrid" };
 
 const EntryPage: NextPage<EntryProps> = (props) => {
   const { entry, site } = props;
