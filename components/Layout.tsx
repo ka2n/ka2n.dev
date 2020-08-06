@@ -1,10 +1,11 @@
-import React from "react";
-import { GoogleAnalytics, GoogleAnalyticsTracker } from "./GoogleAnalytics";
 import { SiteConfig } from "APIClient";
-import NextLink from "next/link";
 import clsx from "clsx";
-import Head from "next/head";
 import { useAmp } from "next/amp";
+import Head from "next/head";
+import NextLink from "next/link";
+import React from "react";
+import { publicConfig } from "server/publicConfig";
+import { GoogleAnalytics } from "./GoogleAnalytics";
 
 export const Layout: React.FC<{
   site: SiteConfig;
@@ -19,11 +20,11 @@ export const Layout: React.FC<{
       {...props._container}
       className={clsx("min-h-screen", props._container?.className)}
     >
-      {process.env.NEXT_PUBLIC_GTAG && (
-        <>
-          <GoogleAnalytics gtag={process.env.NEXT_PUBLIC_GTAG} />
-          <GoogleAnalyticsTracker gtag={process.env.NEXT_PUBLIC_GTAG} />
-        </>
+      {publicConfig.gtm && (
+        <GoogleAnalytics
+          gtag={publicConfig.gtm}
+          gtag_amp={publicConfig.gtm_amp}
+        />
       )}
       <Head>
         {site.favicon && (
