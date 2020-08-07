@@ -1,30 +1,34 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/zeit/next.js/tree/canary/packages/create-next-app).
+# micronextblog
 
-## Getting Started
 
-First, run the development server:
+## Configuration
 
-```bash
-npm run dev
-# or
-yarn dev
+### Environment variables
+
+**NEXT_PUBLIC_CONFIG**
+
+example:
+
+```json
+{"gtm_amp": "<GTM_ID>","gtm":"<GTM_ID>"}
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- gtm_amp: Google Tagmanager Container ID for AMP pages
+- gtm_: Google Tagmanager Container ID for normal(non-AMP) pages
+    
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+**MICROCMS_KEY**
 
-## Learn More
+API key for microcms.io
 
-To learn more about Next.js, take a look at the following resources:
+e.g.: `XXXXXXX-XXXX-XXXX-XXXX-XXXXXXX`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**MICROCMS_ENDPOINT**
 
-You can check out [the Next.js GitHub repository](https://github.com/zeit/next.js) - your feedback and contributions are welcome!
+Endpoint for microcms.io
 
-## Deploy on Vercel
+e.g.: `https://<id>.microcms.io/api/v1`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### microcms.io API schema
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+See `./vendor/`

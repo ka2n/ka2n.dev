@@ -1,0 +1,60 @@
+[
+  {
+    "fieldId": "title",
+    "name": "サイトタイトル",
+    "kind": "text"
+  },
+  {
+    "fieldId": "description",
+    "name": "サイト説明",
+    "kind": "text"
+  },
+  {
+    "fieldId": "top",
+    "name": "トップページ設定",
+    "kind": "custom",
+    "customFieldCreatedAt": "2020-08-01T15:56:01.113Z"
+  },
+  {
+    "fieldId": "author_name",
+    "name": "執筆者名",
+    "kind": "text"
+  },
+  {
+    "fieldId": "author_description",
+    "name": "執筆者紹介文",
+    "kind": "textArea"
+  },
+  {
+    "fieldId": "author_icon",
+    "name": "著者アイコン",
+    "kind": "media"
+  },
+  {
+    "fieldId": "base_url",
+    "name": "ベースURL",
+    "kind": "text",
+    "required": true
+  },
+  {
+    "fieldId": "logo",
+    "name": "ロゴ画像",
+    "kind": "media"
+  },
+  {
+    "fieldId": "logo_size",
+    "name": "ロゴの横幅",
+    "kind": "custom",
+    "customFieldCreatedAt": "2020-08-04T19:19:13.544Z"
+  },
+  {
+    "fieldId": "eyecatch",
+    "name": "アイキャッチ画像",
+    "kind": "media"
+  },
+  {
+    "fieldId": "favicon",
+    "name": "Favicon画像",
+    "kind": "media"
+  }
+]

@@ -1,0 +1,43 @@
+[
+  {
+    "fieldId": "slug",
+    "name": "Slug",
+    "kind": "text",
+    "required": true
+  },
+  {
+    "fieldId": "title",
+    "name": "タイトル",
+    "kind": "text",
+    "required": true
+  },
+  {
+    "fieldId": "body",
+    "name": "本文",
+    "kind": "richEditor",
+    "required": true
+  },
+  {
+    "fieldId": "excerpt",
+    "name": "抜粋",
+    "kind": "text"
+  },
+  {
+    "fieldId": "eyecatch",
+    "name": "アイキャッチ画像",
+    "kind": "media"
+  },
+  {
+    "fieldId": "links",
+    "name": "関連リンク",
+    "kind": "repeater",
+    "customFieldCreatedAtList": [
+      "2020-08-01T15:44:41.331Z"
+    ]
+  },
+  {
+    "fieldId": "pinned",
+    "name": "固定表示する",
+    "kind": "boolean"
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "fieldId": "title",
+    "name": "タイトル",
+    "kind": "text",
+    "required": true
+  },
+  {
+    "fieldId": "description",
+    "name": "説明文",
+    "kind": "text"
+  },
+  {
+    "fieldId": "entries",
+    "name": "投稿",
+    "kind": "relationList",
+    "required": true,
+    "referenceKey": "API#a69d9ae7-d21d-4c9e-be29-5b88d9325e67"
+  },
+  {
+    "fieldId": "slug",
+    "name": "slug",
+    "kind": "text"
+  },
+  {
+    "fieldId": "eyecatch",
+    "name": "アイキャッチ画像",
+    "kind": "media"
+  }
+]
