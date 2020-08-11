@@ -184,6 +184,6 @@ export const getStaticProps: GetStaticProps<HomePageProps, any> = async (
       site: await Data(APIClient.current.author()),
       asideContents: asideContents.contents,
     },
-    revalidate: 60 * 5,
+    revalidate: 60,
   };
 };
