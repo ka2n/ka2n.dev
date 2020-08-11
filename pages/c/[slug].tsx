@@ -148,5 +148,6 @@ export const getStaticProps: GetStaticProps<
       collection,
       error: null,
     },
+    revalidate: 60
   };
 };
