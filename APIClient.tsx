@@ -226,7 +226,7 @@ export type SiteConfig = {
   base_url: string;
   eyecatch?: ImageRef;
   logo?: ImageRef;
-  logo_size?: ImageSize;
+  logo_size?: string;
   favicon?: ImageRef;
 };
 
@@ -237,5 +237,3 @@ export type PageConf = {
 };
 
 export type ImageRef = { url: string };
-
-type ImageSize = { width: number; height: number };

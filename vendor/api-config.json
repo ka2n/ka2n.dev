@@ -43,8 +43,8 @@
   },
   {
     "fieldId": "logo_size",
-    "name": "ロゴの横幅",
-    "kind": "custom",
+    "name": "ロゴのアスペクト比をWW:HHで指定",
+    "kind": "text",
     "customFieldCreatedAt": "2020-08-04T19:19:13.544Z"
   },
   {

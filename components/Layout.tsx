@@ -52,22 +52,21 @@ export const Layout: React.FC<{
         <div className="max-w-screen-md w-full mx-auto">
           <NextLink href="/">
             <a>
-              {site.logo ? (
+              {site.logo && site.logo_size ? (
                 amp ? (
                   <amp-img
                     src={site.logo.url}
-                    height={64}
-                    width={
-                      (64 / (site.logo_size?.height ?? 64)) *
-                      (site.logo_size?.width ?? 0)
-                    }
+                    width={site.logo_size.split(":")[0]}
+                    height={site.logo_size.split(":")[1]}
                     layout="intrinsic"
                     alt={site.title}
                   />
                 ) : (
                   <img
                     src={site.logo?.url}
-                    className="h-16 object-contain"
+                    className="object-contain object-left"
+                    width={site.logo_size.split(":")[0]}
+                    height={site.logo_size.split(":")[1]}
                     alt={site.title}
                   />
                 )
