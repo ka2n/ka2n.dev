@@ -4,7 +4,6 @@ import { useAmp } from "next/amp";
 import Head from "next/head";
 import NextLink from "next/link";
 import React from "react";
-import { publicConfig } from "server/publicConfig";
 import { GoogleAnalytics } from "./GoogleAnalytics";
 
 export const Layout: React.FC<{
@@ -20,11 +19,8 @@ export const Layout: React.FC<{
       {...props._container}
       className={clsx("min-h-screen", props._container?.className)}
     >
-      {publicConfig.gtm && (
-        <GoogleAnalytics
-          gtag={publicConfig.gtm}
-          gtag_amp={publicConfig.gtm_amp}
-        />
+      {site.gtm && site.gtm_amp && (
+        <GoogleAnalytics gtag={site.gtm} gtag_amp={site.gtm_amp} />
       )}
       <Head>
         {site.favicon && (

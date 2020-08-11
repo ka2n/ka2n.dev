@@ -67,5 +67,15 @@
     "fieldId": "favicon",
     "name": "Favicon画像",
     "kind": "media"
+  },
+  {
+    "fieldId": "gtm_id",
+    "name": "GoogleTagManager Container ID",
+    "kind": "text"
+  },
+  {
+    "fieldId": "gtm_amp_id",
+    "name": "GoogleTagManager Container ID AMP用",
+    "kind": "text"
   }
 ]

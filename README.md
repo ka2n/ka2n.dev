@@ -5,18 +5,6 @@
 
 ### Environment variables
 
-**NEXT_PUBLIC_CONFIG**
-
-example:
-
-```json
-{"gtm_amp": "<GTM_ID>","gtm":"<GTM_ID>"}
-```
-
-- gtm_amp: Google Tagmanager Container ID for AMP pages
-- gtm_: Google Tagmanager Container ID for normal(non-AMP) pages
-    
-
 **MICROCMS_KEY**
 
 API key for microcms.io

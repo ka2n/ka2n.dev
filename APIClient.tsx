@@ -229,6 +229,8 @@ export type SiteConfig = {
   logo?: ImageRef;
   logo_size?: string;
   favicon?: ImageRef;
+  gtm?: string;
+  gtm_amp?: string;
 };
 
 export type PageConf = {
