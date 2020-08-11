@@ -26,3 +26,5 @@ See `./vendor/`
 - Logo: Retrieve image size from `Image API`.
 - Favicon: variants.
 - Entry: Retrieve image size from the URL parameter in image URL.
+- Top: support preview
+- Pages to create: list collections, category or tag
