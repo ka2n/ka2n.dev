@@ -3,7 +3,7 @@
     "fieldId": "slug",
     "name": "Slug",
     "kind": "text",
-    "required": true
+    "required": false
   },
   {
     "fieldId": "title",
