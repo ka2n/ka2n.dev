@@ -20,3 +20,9 @@ e.g.: `https://<id>.microcms.io/api/v1`
 ### microcms.io API schema
 
 See `./vendor/`
+
+### TODO
+
+- Logo: Retrieve image size from `Image API`.
+- Favicon: variants.
+- Entry: Retrieve image size from the URL parameter in image URL.
