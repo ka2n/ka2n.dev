@@ -2,28 +2,39 @@
   {
     "fieldId": "title",
     "name": "サイトタイトル",
-    "kind": "text"
+    "kind": "text",
+    "required": true
   },
   {
     "fieldId": "description",
     "name": "サイト説明",
-    "kind": "text"
+    "kind": "text",
+    "required": true
   },
   {
-    "fieldId": "top",
-    "name": "トップページ設定",
-    "kind": "custom",
+    "fieldId": "top_title",
+    "name": "トップページ: タイトル",
+    "kind": "text",
+    "required": false,
     "customFieldCreatedAt": "2020-08-01T15:56:01.113Z"
+  },
+  {
+    "fieldId": "top_description",
+    "name": "トップページ: 説明文",
+    "kind": "text",
+    "required": false
   },
   {
     "fieldId": "author_name",
     "name": "執筆者名",
-    "kind": "text"
+    "kind": "text",
+    "required": true
   },
   {
     "fieldId": "author_description",
     "name": "執筆者紹介文",
-    "kind": "textArea"
+    "kind": "textArea",
+    "required": true
   },
   {
     "fieldId": "author_icon",

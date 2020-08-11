@@ -219,7 +219,8 @@ export type SiteConfig = {
   publishedAt: string;
   title: string;
   description: string;
-  top: PageConf;
+  top_title?: string;
+  top_description?: string;
   author_name: string;
   author_description: string;
   author_icon?: ImageRef;
