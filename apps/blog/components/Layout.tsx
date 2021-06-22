@@ -2,7 +2,6 @@ import { SiteConfig } from "APIClient";
 import clsx from "clsx";
 import NextLink from "next/link";
 import React from "react";
-import { GoogleAnalytics } from "./GoogleAnalytics";
 
 export const Layout: React.FC<{
   site: SiteConfig;
@@ -20,7 +19,6 @@ export const Layout: React.FC<{
         props._container?.className
       )}
     >
-      {site.gtm_id && <GoogleAnalytics gtag={site.gtm_id} />}
       {props.preview && (
         <div className="bg-pink-700 text-white px-4">
           <div className="max-w-screen-md mx-auto text-base">

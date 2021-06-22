@@ -4,8 +4,9 @@ import "css/index.css";
 import { DefaultSeo } from "next-seo";
 import { siteConfig } from "lib/site-config";
 import { isTruthy } from "typesafe-utils";
+import { GoogleAnalytics } from "components/GoogleAnalytics";
 
-function MyApp({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <DefaultSeo
@@ -25,8 +26,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         ].filter(isTruthy)}
       />
       <Component {...pageProps} />
+      {siteConfig.gtm_id && <GoogleAnalytics gtag={siteConfig.gtm_id} />}
     </>
   );
 }
 
-export default MyApp;
+export default App;
