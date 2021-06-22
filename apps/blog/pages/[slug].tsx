@@ -49,7 +49,7 @@ const EntryPage: NextPage<EntryProps> = (props) => {
         <meta
           data-hid="twitter:card"
           property="twitter:card"
-          content="summary"
+          content="summary_large_image"
         />
         <meta key="description" property="description" content={excerpt} />
         <link key="canonical" rel="canonical" href={canonical} />
