@@ -1,4 +1,5 @@
 import { AuthorIcon } from "components/AuthorIcon";
+import { DateTimeLabel } from "components/DateTimeLabel";
 import { FooterAuthorDesc } from "components/FooterAuthorDesc";
 import { Layout } from "components/Layout";
 import { PageLevelEyeCatch } from "components/PageLevelEyeCatch";
@@ -60,7 +61,20 @@ const EntryPage: NextPage<EntryProps> = (props) => {
             </div>
             <div>
               <div className="font-semibold">{site.author_name}</div>
-              <div>{entry.updatedAt}</div>
+              <div className="space-x-2">
+                <DateTimeLabel
+                  title={entry.publishedAt ?? entry.createdAt}
+                  date={entry.publishedAt ?? entry.createdAt}
+                />
+                <span className="text-gray-500">
+                  (Updated:&nbsp;
+                  <DateTimeLabel
+                    title={entry.updatedAt}
+                    date={entry.updatedAt}
+                  />
+                  )
+                </span>
+              </div>
             </div>
           </div>
         </section>

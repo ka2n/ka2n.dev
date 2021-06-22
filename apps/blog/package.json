@@ -8,7 +8,7 @@
   "scripts": {
     "fetch-site-config": "node lib/fetch-site-config.js",
     "dev": "concurrently yarn:dev:*",
-    "dev:next": "yarn fetch-site-config && next dev",
+    "dev:next": "yarn fetch-site-config && env TZ='utc' next dev",
     "now-build": "yum install libuuid-devel libmount-devel && cp /lib64/{libuuid,libmount,libblkid}.so.1 node_modules/canvas/build/Release/ && yarn build",
     "build": "yarn fetch-site-config && next build",
     "start": "next start"
@@ -31,6 +31,7 @@
     "immer": "^7.0.7",
     "konva": "^7.0.4",
     "konva-node": "^0.11.1",
+    "luxon": "^1.27.0",
     "next": "^11.0.0",
     "next-seo": "^4.26.0",
     "react": "^17.0.2",
@@ -46,6 +47,8 @@
     "unified": "^9.1.0"
   },
   "devDependencies": {
+    "@types/concurrently": "^5.2.1",
+    "@types/luxon": "^1.27.0",
     "@types/node": "^14.0.27",
     "@types/react": "^16.9.44",
     "@types/react-dom": "^16.9.8",
