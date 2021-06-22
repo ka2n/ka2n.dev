@@ -77,7 +77,7 @@ const EntryPage: NextPage<EntryProps> = (props) => {
         <div className="px-4 py-4">
           <div
             dangerouslySetInnerHTML={{
-              __html: entry.body_plain,
+              __html: entry.body,
             }}
           />
         </div>
