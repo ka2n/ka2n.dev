@@ -12,6 +12,7 @@ import { Layout } from "components/Layout";
 import { PageLevelEyeCatch } from "components/PageLevelEyeCatch";
 import { formatToPlain } from "Formatter";
 import produce from "immer";
+import { siteConfig } from "lib/site-config";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import React from "react";
@@ -107,13 +108,7 @@ export const getStaticProps: GetStaticProps<CollectionProps, CollectionQuery> =
     const previewData = ctx?.previewData as any;
     const draftKey = previewData?.draftKey;
     const preview = !!draftKey;
-    const site = await Data(APIClient.current.author());
-    if (!site) {
-      return {
-        props: { site, error: "ERR_NOT_FOUND", preview },
-        revalidate: 10,
-      };
-    }
+    const site = siteConfig;
 
     if (!ctx.params?.slug) {
       return {

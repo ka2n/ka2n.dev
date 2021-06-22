@@ -4,9 +4,9 @@ import {
   CollectionResponse,
   Data,
   Entry,
+  RenderedEntry,
   Result,
   SiteConfig,
-  RenderedEntry,
 } from "APIClient";
 import clsx from "clsx";
 import { AuthorIcon } from "components/AuthorIcon";
@@ -16,6 +16,7 @@ import { Layout } from "components/Layout";
 import { PageLevelEyeCatch } from "components/PageLevelEyeCatch";
 import { formatToPlain } from "Formatter";
 import produce from "immer";
+import { siteConfig } from "lib/site-config";
 import { GetStaticProps, NextPage, PageConfig } from "next";
 import Head from "next/head";
 
@@ -181,7 +182,7 @@ export const getStaticProps: GetStaticProps<HomePageProps, any> = async (
     props: {
       pinnedEntry: pinnedEntry ?? null,
       topEntries: topEntries.contents,
-      site: await Data(APIClient.current.author()),
+      site: siteConfig,
       asideContents: asideContents.contents,
     },
     revalidate: 60,

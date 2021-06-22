@@ -1,4 +1,5 @@
 import { APIClient, Result } from "APIClient";
+import { siteConfig } from "lib/site-config";
 import { GetServerSideProps } from "next";
 import { OGPImage } from "server/ogp";
 
@@ -23,15 +24,12 @@ export const getServerSideProps: GetServerSideProps<any, EntryQuery> = async (
   }
   const previewData = ctx?.previewData as any;
   const draftKey = previewData?.draftKey;
-  const [siteResult, entryResult] = await Promise.all([
-    Result(APIClient.current.author()),
-    Result(
-      APIClient.current.findEntry(ctx.params.slug, {
-        draftKey,
-      })
-    ),
-  ]);
-  const site = siteResult?.result?.data;
+  const entryResult = await Result(
+    APIClient.current.findEntry(ctx.params.slug, {
+      draftKey,
+    })
+  );
+  const site = siteConfig;
   const entry = entryResult?.result?.data;
   if (!site || !entry) {
     res.writeHead(400).end();

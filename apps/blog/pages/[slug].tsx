@@ -3,6 +3,7 @@ import { FooterAuthorDesc } from "components/FooterAuthorDesc";
 import { Layout } from "components/Layout";
 import { PageLevelEyeCatch } from "components/PageLevelEyeCatch";
 import { formatToPlain } from "Formatter";
+import { siteConfig } from "lib/site-config";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import React from "react";
@@ -131,15 +132,7 @@ export const getStaticProps: GetStaticProps<EntryProps, EntryQuery> = async (
   const previewData = ctx?.previewData as any;
   const draftKey = previewData?.draftKey;
   const preview = !!draftKey;
-  const siteResp = await Result(APIClient.current.author());
-  const site = siteResp.result?.data;
-  if (!site) {
-    return {
-      props: { entry: null, site, error: "ERR_NOT_FOUND", preview },
-      revalidate: 10,
-    };
-  }
-
+  const site = siteConfig;
   if (!ctx.params?.slug) {
     return {
       props: { entry: null, site, error: "ERR_NOT_FOUND_SLUG", preview },
