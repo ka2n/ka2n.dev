@@ -1,6 +1,5 @@
 import { SiteConfig } from "APIClient";
 import clsx from "clsx";
-import Head from "next/head";
 import NextLink from "next/link";
 import React from "react";
 import { GoogleAnalytics } from "./GoogleAnalytics";
@@ -22,12 +21,6 @@ export const Layout: React.FC<{
       )}
     >
       {site.gtm && <GoogleAnalytics gtag={site.gtm} />}
-      <Head>
-        {site.favicon && (
-          <link rel="icon" href={site.favicon.url} type="image/svg+html" />
-        )}
-        <meta key="og:site_name" property="og:site_name" content={site.title} />
-      </Head>
       {props.preview && (
         <div className="bg-pink-700 text-white px-4">
           <div className="max-w-screen-md mx-auto text-base">

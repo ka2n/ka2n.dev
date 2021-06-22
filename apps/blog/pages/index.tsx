@@ -18,7 +18,6 @@ import { formatToPlain } from "Formatter";
 import produce from "immer";
 import { siteConfig } from "lib/site-config";
 import { GetStaticProps, NextPage, PageConfig } from "next";
-import Head from "next/head";
 
 export const config: PageConfig = {};
 
@@ -30,9 +29,6 @@ const Home: NextPage<HomePageProps> = (props) => {
       _container={{ className: "bg-yellow-50" }}
       _main={{ className: "mx-4" }}
     >
-      <Head>
-        <title key="title">{site.title}</title>
-      </Head>
       <div className="-mx-4 bg-white">
         {site.eyecatch && <PageLevelEyeCatch image={site.eyecatch} />}
         <div className="mx-4">

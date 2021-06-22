@@ -5,8 +5,9 @@ import { PageLevelEyeCatch } from "components/PageLevelEyeCatch";
 import { formatToPlain } from "Formatter";
 import { siteConfig } from "lib/site-config";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
-import Head from "next/head";
+import { NextSeo } from "next-seo";
 import React from "react";
+import { isTruthy } from "typesafe-utils";
 import { APIClient, RenderedEntry, Result, SiteConfig } from "../APIClient";
 import DefaultErrorPage from "./_error";
 
@@ -15,9 +16,7 @@ const EntryPage: NextPage<EntryProps> = (props) => {
   if (!entry || !site) {
     return (
       <>
-        <Head>
-          <meta name="robots" content="noindex" />
-        </Head>
+        <NextSeo noindex />
         <DefaultErrorPage statusCode={404} />
       </>
     );
@@ -25,40 +24,30 @@ const EntryPage: NextPage<EntryProps> = (props) => {
   const canonical = `${site.base_url}/${encodeURIComponent(
     entry.slug ?? entry.id
   )}`;
-  const title = `${entry.title} | ${site.title}`;
-  const excerpt = entry.excerpt ?? entry.body.slice(0, 100);
+  const excerpt = entry.excerpt ?? entry.body_plain.slice(0, 100);
 
   return (
     <Layout preview={props.preview} site={site}>
-      <Head>
-        {entry.og_path && (
-          <meta
-            key="og:image"
-            property="og:image"
-            content={`${site.base_url}${entry.og_path}`}
-          />
-        )}
-        <meta key="og:url" property="og:url" content={canonical} />
-        <meta key="og:type" property="og:type" content="article" />
-        <meta key="og:title" property="og:title" content={title} />
-        <meta
-          key="og:description"
-          property="og:description"
-          content={excerpt}
-        />
-        {/* <meta key="fb:app_id" property="fb:app_id" content="" /> */}
-        <meta
-          data-hid="twitter:card"
-          property="twitter:card"
-          content="summary_large_image"
-        />
-        <meta key="description" property="description" content={excerpt} />
-        <link key="canonical" rel="canonical" href={canonical} />
-        <title key="title">
-          {props.preview ? "Preview: " : ""}
-          {title}
-        </title>
-      </Head>
+      <NextSeo
+        title={props.preview ? `Preview : ${entry.title}` : entry.title}
+        canonical={canonical}
+        description={excerpt}
+        openGraph={{
+          url: canonical,
+          type: "article",
+          description: excerpt,
+          title: entry.title,
+          article: {
+            publishedTime: entry.publishedAt,
+            modifiedTime: entry.updatedAt,
+          },
+          images: [
+            entry.og_path && {
+              url: `${site.base_url}${entry.og_path}`,
+            },
+          ].filter(isTruthy),
+        }}
+      />
       {entry.eyecatch && <PageLevelEyeCatch image={entry.eyecatch} />}
       <div className="w-full max-w-screen-md mx-auto">
         <h1 className="text-palt tracking-wider pt-4 px-2 text-3xl font-semibold">

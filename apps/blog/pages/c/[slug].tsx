@@ -14,7 +14,7 @@ import { formatToPlain } from "Formatter";
 import produce from "immer";
 import { siteConfig } from "lib/site-config";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
-import Head from "next/head";
+import { NextSeo } from "next-seo";
 import React from "react";
 import DefaultErrorPage from "../_error";
 
@@ -27,9 +27,7 @@ const CollectionPage: NextPage<CollectionProps> = ({
   if (!site || !col) {
     return (
       <>
-        <Head>
-          <meta name="robots" content="noindex" />
-        </Head>
+        <NextSeo noindex />
         <DefaultErrorPage statusCode={404} />
       </>
     );
@@ -37,16 +35,16 @@ const CollectionPage: NextPage<CollectionProps> = ({
   const canonical = `${site.base_url}/c/${encodeURIComponent(
     col.slug ?? col.id
   )}`;
-  const title = `${col.title} | ${site.title}`;
   return (
     <Layout site={site} preview={preview}>
-      <Head>
-        <title key="title">
-          {preview ? "Preview: " : ""}
-          {title}
-        </title>
-        <link key="canonical" rel="canonical" href={canonical} />
-      </Head>
+      <NextSeo
+        title={preview ? `Preview : ${col.title}` : col.title}
+        canonical={canonical}
+        description={col.description}
+        openGraph={{
+          url: canonical,
+        }}
+      />
       {col.eyecatch && <PageLevelEyeCatch image={col.eyecatch} />}
       <div className="w-full max-w-screen-md mt-4 px-2 pt-2 mx-auto">
         <h1 className="text-gray-900 text-palt tracking-wider text-2xl font-semibold my-4">
