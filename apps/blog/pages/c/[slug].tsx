@@ -102,52 +102,55 @@ export const getStaticPaths: GetStaticPaths<CollectionQuery> = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps<
-  CollectionProps,
-  CollectionQuery
-> = async (ctx) => {
-  const preview = !!ctx?.previewData?.draftKey;
-  const site = await Data(APIClient.current.author());
-  if (!site) {
-    return {
-      props: { site, error: "ERR_NOT_FOUND", preview },
-      revalidate: 10,
-    };
-  }
-
-  if (!ctx.params?.slug) {
-    return { props: { site, error: "ERR_NO_QUERY", preview }, revalidate: 10 };
-  }
-
-  const ret = await Result(
-    APIClient.current.findCollection(ctx.params.slug, {
-      draftKey: ctx.previewData?.draftKey,
-    })
-  );
-  if (!ret.result) {
-    return {
-      props: { site, error: "ERR_NOT_FOUND_COLLECTION", preview },
-      revalidate: 10,
-    };
-  }
-  const collection: Collection<RenderedEntry> = produce(
-    ret.result.data,
-    (data) => {
-      data.entries.forEach((entry: RenderedEntry) => {
-        entry.body_amp = formatToAMP(entry.body);
-        entry.body_plain = formatToPlain(entry.body);
-      });
-      return data as Collection<RenderedEntry>;
+export const getStaticProps: GetStaticProps<CollectionProps, CollectionQuery> =
+  async (ctx) => {
+    const previewData = ctx?.previewData as any;
+    const draftKey = previewData?.draftKey;
+    const preview = !!draftKey;
+    const site = await Data(APIClient.current.author());
+    if (!site) {
+      return {
+        props: { site, error: "ERR_NOT_FOUND", preview },
+        revalidate: 10,
+      };
     }
-  );
 
-  return {
-    props: {
-      site,
-      preview,
-      collection,
-      error: null,
-    },
-    revalidate: 60
+    if (!ctx.params?.slug) {
+      return {
+        props: { site, error: "ERR_NO_QUERY", preview },
+        revalidate: 10,
+      };
+    }
+
+    const ret = await Result(
+      APIClient.current.findCollection(ctx.params.slug, {
+        draftKey,
+      })
+    );
+    if (!ret.result) {
+      return {
+        props: { site, error: "ERR_NOT_FOUND_COLLECTION", preview },
+        revalidate: 10,
+      };
+    }
+    const collection: Collection<RenderedEntry> = produce(
+      ret.result.data,
+      (data) => {
+        data.entries.forEach((entry: RenderedEntry) => {
+          entry.body_amp = formatToAMP(entry.body);
+          entry.body_plain = formatToPlain(entry.body);
+        });
+        return data as Collection<RenderedEntry>;
+      }
+    );
+
+    return {
+      props: {
+        site,
+        preview,
+        collection,
+        error: null,
+      },
+      revalidate: 60,
+    };
   };
-};

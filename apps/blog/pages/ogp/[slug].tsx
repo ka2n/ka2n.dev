@@ -21,11 +21,13 @@ export const getServerSideProps: GetServerSideProps<any, EntryQuery> = async (
       props: {},
     };
   }
+  const previewData = ctx?.previewData as any;
+  const draftKey = previewData?.draftKey;
   const [siteResult, entryResult] = await Promise.all([
     Result(APIClient.current.author()),
     Result(
       APIClient.current.findEntry(ctx.params.slug, {
-        draftKey: ctx.previewData?.draftKey,
+        draftKey,
       })
     ),
   ]);

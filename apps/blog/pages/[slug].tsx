@@ -142,7 +142,9 @@ export const getStaticPaths: GetStaticPaths<EntryQuery> = async () => {
 export const getStaticProps: GetStaticProps<EntryProps, EntryQuery> = async (
   ctx
 ) => {
-  const preview = !!ctx?.previewData?.draftKey;
+  const previewData = ctx?.previewData as any;
+  const draftKey = previewData?.draftKey;
+  const preview = !!draftKey;
   const siteResp = await Result(APIClient.current.author());
   const site = siteResp.result?.data;
   if (!site) {
@@ -161,7 +163,7 @@ export const getStaticProps: GetStaticProps<EntryProps, EntryQuery> = async (
 
   const ret = await Result(
     APIClient.current.findEntry(ctx.params.slug, {
-      draftKey: ctx.previewData?.draftKey,
+      draftKey,
     })
   );
   const entry = ret.result?.data;

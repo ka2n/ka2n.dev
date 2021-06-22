@@ -26,7 +26,7 @@ const Home: NextPage<HomePageProps> = (props) => {
   return (
     <Layout
       site={site}
-      _container={{ className: "bg-orange-100" }}
+      _container={{ className: "bg-yellow-50" }}
       _main={{ className: "mx-4" }}
     >
       <Head>
