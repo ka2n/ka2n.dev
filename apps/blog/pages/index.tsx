@@ -139,7 +139,7 @@ export const getStaticProps: GetStaticProps<HomePageProps, any> = async (
         APIClient.current.listEntry({
           limit: 1,
           fields: ["title", "slug", "id", "createdAt", "excerpt", "body"],
-          filters: `pinned[exists]`,
+          filters: `pinned[equals]true`,
         })
       ).then(
         produce((r: CollectionResponse<TopPageEntry>) => {
