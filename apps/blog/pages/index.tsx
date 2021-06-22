@@ -65,7 +65,11 @@ const Home: NextPage<HomePageProps> = (props) => {
                     固定された記事
                   </span>
                 </div>
-                <EntryCard entry={pinnedEntry} />
+                <EntryCard
+                  variant="pinned"
+                  entry={pinnedEntry}
+                  className="mb-8"
+                />
               </li>
             )}
             {props.topEntries.map((entry, idx) => {

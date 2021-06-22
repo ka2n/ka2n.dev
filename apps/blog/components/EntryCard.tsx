@@ -1,19 +1,28 @@
 import { Entry, RenderedEntry } from "APIClient";
+import clsx from "clsx";
 import NextLink from "next/link";
 export const EntryCard = ({
   entry,
+  ...props
 }: {
   entry: Pick<
     RenderedEntry,
     "id" | "slug" | "title" | "excerpt" | "body" | "eyecatch" | "body_plain"
   >;
+  className?: string;
+  variant?: "pinned";
 }) => {
   const link = {
     href: `/[slug]`,
     as: `/${encodeURIComponent(entry.slug ?? entry.id)}`,
   };
   return (
-    <div className="rounded overflow-hidden border bg-white">
+    <div
+      className={clsx("rounded overflow-hidden bg-white", props.className, {
+        "border-4": props.variant === "pinned",
+        border: !props.variant,
+      })}
+    >
       {entry.eyecatch?.url && (
         <div
           className="h-64 w-full bg-cover bg-center rounded-t overflow-hidden"
