@@ -20,7 +20,7 @@ export const Layout: React.FC<{
         props._container?.className
       )}
     >
-      {site.gtm && <GoogleAnalytics gtag={site.gtm} />}
+      {site.gtm_id && <GoogleAnalytics gtag={site.gtm_id} />}
       {props.preview && (
         <div className="bg-pink-700 text-white px-4">
           <div className="max-w-screen-md mx-auto text-base">
