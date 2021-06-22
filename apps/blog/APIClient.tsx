@@ -43,18 +43,17 @@ export class APIClient {
     options?: { draftKey?: string },
     config?: Partial<AxiosRequestConfig>
   ) {
-    const k = slug;
-    const ret = await Data(
-      this.listEntry({
-        filters: `slug[equals]${k}[or]id[equals]${k}`,
-        limit: 1,
-        draftKey: options?.draftKey,
-        config: { ...config, cache: { ignoreCache: !!options?.draftKey } },
+    const content = await Data(
+      this.httpClient.get<Entry>(`/entry/${slug}`, {
+        ...config,
+        cache: { ignoreCache: !!options?.draftKey },
+        params: {
+          ...config?.params,
+          ...options,
+        },
       })
     );
-    const content: Entry | null = ret.contents[0] || null;
     return {
-      ...ret,
       data: content,
     };
   }
