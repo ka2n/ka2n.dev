@@ -1,6 +1,5 @@
 # micronextblog
 
-
 ## Configuration
 
 ### Environment variables
@@ -23,8 +22,9 @@ See `./vendor/`
 
 ### TODO
 
-- Logo: Retrieve image size from `Image API`.
-- Favicon: variants.
+- Generic: Retrieve site config on startup.
+- Pages to create: list collections, category or tag
 - Entry: Retrieve image size from the URL parameter in image URL.
 - Top: support preview
-- Pages to create: list collections, category or tag
+- Logo: Retrieve image size from `Image API`.
+- Favicon: variants.
