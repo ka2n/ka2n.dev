@@ -15,7 +15,11 @@ export const Layout: React.FC<{
   return (
     <div
       {...props._container}
-      className={clsx("min-h-screen", props._container?.className)}
+      className={clsx(
+        "min-h-screen",
+        "flex flex-col",
+        props._container?.className
+      )}
     >
       {site.gtm && <GoogleAnalytics gtag={site.gtm} />}
       <Head>
@@ -59,7 +63,10 @@ export const Layout: React.FC<{
           </NextLink>
         </div>
       </header>
-      <main {...props._main} className={clsx(props._main?.className)}>
+      <main
+        {...props._main}
+        className={clsx("flex-grow", props._main?.className)}
+      >
         {props.children}
       </main>
       <footer className="border border-l-0 border-r-0 border-b-0 border-gray-300 bg-white mt-12 p-12 text-center text-sm text-gray-700">
