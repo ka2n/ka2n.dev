@@ -56,7 +56,7 @@ const EntryPage: NextPage<EntryProps> = (props) => {
         <section className="px-2 py-2 mb-2 text-sm">
           <div className="flex items-center">
             <div className="mr-4">
-              <AuthorIcon size="sm" site={site} />
+              <AuthorIcon size="sm" site={site} loading="eager" />
             </div>
             <div>
               <div className="font-semibold">{site.author_name}</div>

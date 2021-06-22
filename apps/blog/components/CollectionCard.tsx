@@ -1,5 +1,7 @@
 import { Entry, Collection } from "APIClient";
 import NextLink from "next/link";
+import Image from "next/image";
+
 export const CollectionCard = ({
   collection,
 }: {
@@ -10,12 +12,14 @@ export const CollectionCard = ({
 }) => (
   <div className="rounded overflow-hidden border-4 border-double bg-white">
     {collection.eyecatch && (
-      <div
-        className="h-24 w-full bg-cover bg-center rounded-t overflow-hidden"
-        style={{
-          backgroundImage: `url(${collection.eyecatch.url})`,
-        }}
-      ></div>
+      <div className="relative h-24 w-full overflow-hidden">
+        <Image
+          src={collection.eyecatch.url}
+          layout="fill"
+          objectFit="cover"
+          unoptimized
+        />
+      </div>
     )}
     <NextLink
       href={`/c/[slug]`}

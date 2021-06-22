@@ -236,4 +236,4 @@ export type PageConf = {
   description: string;
 };
 
-export type ImageRef = { url: string };
+export type ImageRef = { url: string; width: number; height: number };

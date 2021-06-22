@@ -35,7 +35,7 @@ const Home: NextPage<HomePageProps> = (props) => {
           <div className="py-6 max-w-screen-md mx-auto">
             <div className="flex items-center">
               <div className="mr-6">
-                <AuthorIcon site={site} />
+                <AuthorIcon site={site} loading="eager" />
               </div>
               <div>
                 <h1 className="text-xl text-gray-900 font-bold mb-2">
