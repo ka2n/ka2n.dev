@@ -10,7 +10,7 @@ import { EntryCard } from "components/EntryCard";
 import { FooterAuthorDesc } from "components/FooterAuthorDesc";
 import { Layout } from "components/Layout";
 import { PageLevelEyeCatch } from "components/PageLevelEyeCatch";
-import { formatToAMP, formatToPlain } from "Formatter";
+import { formatToPlain } from "Formatter";
 import produce from "immer";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
@@ -137,7 +137,6 @@ export const getStaticProps: GetStaticProps<CollectionProps, CollectionQuery> =
       ret.result.data,
       (data) => {
         data.entries.forEach((entry: RenderedEntry) => {
-          entry.body_amp = formatToAMP(entry.body);
           entry.body_plain = formatToPlain(entry.body);
         });
         return data as Collection<RenderedEntry>;

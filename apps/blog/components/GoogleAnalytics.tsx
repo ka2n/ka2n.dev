@@ -1,37 +1,10 @@
-import { useAmp } from "next/amp";
 import Head from "next/head";
-import { AmpIncludeAmpAnalytics } from "./amp/AmpCustomElement";
 
-export const GoogleAnalytics = ({
-  gtag,
-  gtag_amp,
-}: {
-  gtag: string;
-  gtag_amp: string;
-}) => {
-  const amp = useAmp();
-  return amp ? (
-    <AmpAnalytics gtmID={gtag_amp} />
-  ) : (
+export const GoogleAnalytics = ({ gtag }: { gtag: string }) => {
+  return (
     <>
       <Analytics gtag={gtag} />
       <GoogleAnalyticsNoAMPTracker gtag={gtag} />
-    </>
-  );
-};
-
-const AmpAnalytics = ({ gtmID }: { gtmID: string }) => {
-  return (
-    <>
-      <AmpIncludeAmpAnalytics />
-      {/* @ts-ignore */}
-      <amp-analytics
-        config={`https://www.googletagmanager.com/amp.json?id=${gtmID}&gtm.url=SOURCE_URL`}
-        data-credentials="include"
-      />
-      <Head>
-        <meta name="amp-google-client-id-api" content="googleanalytics" />
-      </Head>
     </>
   );
 };

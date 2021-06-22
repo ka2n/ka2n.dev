@@ -1,18 +1,13 @@
-import { AmpIncludeAmpSocialShare } from "components/amp/AmpCustomElement";
 import { AuthorIcon } from "components/AuthorIcon";
 import { FooterAuthorDesc } from "components/FooterAuthorDesc";
 import { Layout } from "components/Layout";
 import { PageLevelEyeCatch } from "components/PageLevelEyeCatch";
-import { formatToAMP, formatToPlain } from "Formatter";
-import { GetStaticPaths, GetStaticProps, NextPage, PageConfig } from "next";
-import { useAmp } from "next/amp";
+import { formatToPlain } from "Formatter";
+import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import React from "react";
 import { APIClient, RenderedEntry, Result, SiteConfig } from "../APIClient";
 import DefaultErrorPage from "./_error";
-
-export const config: PageConfig = { amp: true };
-// export const config: PageConfig = { amp: "hybrid" };
 
 const EntryPage: NextPage<EntryProps> = (props) => {
   const { entry, site } = props;
@@ -31,7 +26,6 @@ const EntryPage: NextPage<EntryProps> = (props) => {
   )}`;
   const title = `${entry.title} | ${site.title}`;
   const excerpt = entry.excerpt ?? entry.body.slice(0, 100);
-  const amp = useAmp();
 
   return (
     <Layout preview={props.preview} site={site}>
@@ -83,16 +77,9 @@ const EntryPage: NextPage<EntryProps> = (props) => {
         <div className="px-4 py-4">
           <div
             dangerouslySetInnerHTML={{
-              __html: amp ? entry.body_amp : entry.body,
+              __html: entry.body_plain,
             }}
           />
-        </div>
-        <div>
-          <AmpIncludeAmpSocialShare />
-          <amp-social-share type="system"></amp-social-share>
-          <amp-social-share type="email"></amp-social-share>
-          <amp-social-share type="twitter"></amp-social-share>
-          <amp-social-share type="line"></amp-social-share>
         </div>
         <FooterAuthorDesc site={site} className={"mt-2"} />
         <hr />
@@ -105,8 +92,7 @@ export default EntryPage;
 
 type EntryProps =
   | {
-      entry: RenderedEntry &
-        Required<Pick<RenderedEntry, "body_amp" | "body_plain">>;
+      entry: RenderedEntry & Required<Pick<RenderedEntry, "body_plain">>;
       site: SiteConfig;
       preview?: boolean;
     }
@@ -174,7 +160,6 @@ export const getStaticProps: GetStaticProps<EntryProps, EntryQuery> = async (
     };
   }
 
-  const ampBody = formatToAMP(entry.body);
   const plainBody = formatToPlain(entry.body);
   const og_path = `/ogp/${entry.id}?rev=${Date.parse(entry.updatedAt)}`;
 
@@ -182,7 +167,6 @@ export const getStaticProps: GetStaticProps<EntryProps, EntryQuery> = async (
     props: {
       entry: {
         ...entry,
-        body_amp: ampBody,
         body_plain: plainBody,
         og_path,
       },

@@ -189,7 +189,6 @@ export type Entry = {
 
 export type RenderedEntry = Entry & {
   body_plain?: string;
-  body_amp?: string;
   og_path?: string;
 };
 
@@ -230,7 +229,6 @@ export type SiteConfig = {
   logo_size?: string;
   favicon?: ImageRef;
   gtm?: string;
-  gtm_amp?: string;
 };
 
 export type PageConf = {

@@ -1,6 +1,5 @@
 import { SiteConfig } from "APIClient";
 import clsx from "clsx";
-import { useAmp } from "next/amp";
 import Head from "next/head";
 import NextLink from "next/link";
 import React from "react";
@@ -13,15 +12,12 @@ export const Layout: React.FC<{
   _main?: Partial<JSX.IntrinsicElements["div"]>;
   _container?: Partial<JSX.IntrinsicElements["div"]>;
 }> = ({ site, ...props }) => {
-  const amp = useAmp();
   return (
     <div
       {...props._container}
       className={clsx("min-h-screen", props._container?.className)}
     >
-      {site.gtm && site.gtm_amp && (
-        <GoogleAnalytics gtag={site.gtm} gtag_amp={site.gtm_amp} />
-      )}
+      {site.gtm && <GoogleAnalytics gtag={site.gtm} />}
       <Head>
         {site.favicon && (
           <link rel="icon" href={site.favicon.url} type="image/svg+html" />
@@ -49,23 +45,13 @@ export const Layout: React.FC<{
           <NextLink href="/">
             <a>
               {site.logo && site.logo_size ? (
-                amp ? (
-                  <amp-img
-                    src={site.logo.url}
-                    width={site.logo_size.split(":")[0]}
-                    height={site.logo_size.split(":")[1]}
-                    layout="intrinsic"
-                    alt={site.title}
-                  />
-                ) : (
-                  <img
-                    src={site.logo?.url}
-                    className="object-contain object-left"
-                    width={site.logo_size.split(":")[0]}
-                    height={site.logo_size.split(":")[1]}
-                    alt={site.title}
-                  />
-                )
+                <img
+                  src={site.logo?.url}
+                  className="object-contain object-left"
+                  width={site.logo_size.split(":")[0]}
+                  height={site.logo_size.split(":")[1]}
+                  alt={site.title}
+                />
               ) : (
                 site.title
               )}
