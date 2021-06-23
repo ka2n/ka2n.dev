@@ -11,3 +11,13 @@ html {
 }
 
 @tailwind utilities;
+
+.link-overlay {
+  @apply relative;
+
+  & .link-overlay-link::before {
+    content: "";
+    cursor: inherit;
+    @apply block absolute inset-0 z-0;
+  }
+}
