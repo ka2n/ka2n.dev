@@ -6,8 +6,8 @@ export const DateTimeLabel = ({
   ...props
 }: { date: string } & JSX.IntrinsicElements["span"]) => {
   return (
-    <span suppressHydrationWarning {...props}>
+    <time dateTime={date} suppressHydrationWarning {...props}>
       {DateTime.fromISO(date).toFormat("yyyy/MM/dd HH:mm ZZ")}
-    </span>
+    </time>
   );
 };

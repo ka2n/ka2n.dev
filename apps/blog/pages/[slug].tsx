@@ -62,28 +62,19 @@ const EntryPage: NextPage<EntryProps> = (props) => {
             <div>
               <div className="font-semibold">{site.author_name}</div>
               <div className="space-x-2">
-                <DateTimeLabel
-                  title={entry.publishedAt ?? entry.createdAt}
-                  date={entry.publishedAt ?? entry.createdAt}
-                />
-                <span className="text-gray-500">
-                  (Updated:&nbsp;
-                  <DateTimeLabel
-                    title={entry.updatedAt}
-                    date={entry.updatedAt}
-                  />
-                  )
-                </span>
+                <DateTimeLabel date={entry.publishedAt ?? entry.createdAt} />
+                {entry.revisedAt && (
+                  <span className="text-gray-500">
+                    (Updated:&nbsp;
+                    <DateTimeLabel date={entry.revisedAt} />)
+                  </span>
+                )}
               </div>
             </div>
           </div>
         </section>
         <div className="px-4 py-4">
-          <div
-            dangerouslySetInnerHTML={{
-              __html: entry.body,
-            }}
-          />
+          <EntryBody>{entry.body}</EntryBody>
         </div>
         <FooterAuthorDesc site={site} className={"mt-2"} />
         <hr />

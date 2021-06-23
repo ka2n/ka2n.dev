@@ -178,6 +178,7 @@ export type Entry = {
   updatedAt: string;
   createdAt: string;
   publishedAt?: string;
+  revisedAt?: string;
   slug?: string;
   title: string;
   body: string;
