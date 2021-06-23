@@ -3,14 +3,16 @@ import { DateTimeLabel } from "components/DateTimeLabel";
 import { FooterAuthorDesc } from "components/FooterAuthorDesc";
 import { Layout } from "components/Layout";
 import { PageLevelEyeCatch } from "components/PageLevelEyeCatch";
-import { formatToPlain } from "Formatter";
+import { formatToHTML, formatToPlain } from "Formatter";
 import { siteConfig } from "lib/site-config";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { NextSeo } from "next-seo";
 import React from "react";
 import { isTruthy } from "typesafe-utils";
 import { APIClient, RenderedEntry, Result, SiteConfig } from "../APIClient";
+import { EntryBody } from "../components/EntryBody";
 import DefaultErrorPage from "./_error";
+import Link from "next/link";
 
 const EntryPage: NextPage<EntryProps> = (props) => {
   const { entry, site } = props;
@@ -51,8 +53,8 @@ const EntryPage: NextPage<EntryProps> = (props) => {
       />
       {entry.eyecatch && <PageLevelEyeCatch image={entry.eyecatch} />}
       <div className="w-full max-w-screen-md mx-auto">
-        <h1 className="text-palt tracking-wider pt-4 px-2 text-3xl font-semibold">
-          {entry.title}
+        <h1 className="text-palt tracking-wider p-2 pt-4 text-3xl font-semibold">
+          <Link href={canonical}>{entry.title}</Link>
         </h1>
         <section className="px-2 py-2 mb-2 text-sm">
           <div className="flex items-center">
@@ -148,12 +150,14 @@ export const getStaticProps: GetStaticProps<EntryProps, EntryQuery> = async (
   }
 
   const plainBody = formatToPlain(entry.body);
+  const htmlBody = formatToHTML(entry.body);
   const og_path = `/ogp/${entry.id}?rev=${Date.parse(entry.updatedAt)}`;
 
   return {
     props: {
       entry: {
         ...entry,
+        body: htmlBody,
         body_plain: plainBody,
         og_path,
       },
