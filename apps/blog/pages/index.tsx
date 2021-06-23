@@ -6,7 +6,6 @@ import {
   Entry,
   RenderedEntry,
   Result,
-  SiteConfig,
 } from "APIClient";
 import clsx from "clsx";
 import { AuthorIcon } from "components/AuthorIcon";
@@ -22,7 +21,8 @@ import { GetStaticProps, NextPage, PageConfig } from "next";
 export const config: PageConfig = {};
 
 const Home: NextPage<HomePageProps> = (props) => {
-  const { site, pinnedEntry } = props;
+  const { pinnedEntry } = props;
+  const site = siteConfig;
   return (
     <Layout
       site={site}
@@ -131,7 +131,6 @@ type HomePageProps = {
   pinnedEntry: TopPageEntry | null;
   topEntries: TopPageEntry[];
   asideContents: AsideContent[];
-  site: SiteConfig;
 };
 
 export const getStaticProps: GetStaticProps<HomePageProps, any> = async (
@@ -182,7 +181,6 @@ export const getStaticProps: GetStaticProps<HomePageProps, any> = async (
     props: {
       pinnedEntry: pinnedEntry ?? null,
       topEntries: topEntries.contents,
-      site: siteConfig,
       asideContents: asideContents.contents,
     },
     revalidate: 60,
