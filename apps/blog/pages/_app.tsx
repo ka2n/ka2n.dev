@@ -5,6 +5,7 @@ import { DefaultSeo } from "next-seo";
 import { siteConfig } from "lib/site-config";
 import { isTruthy } from "typesafe-utils";
 import { GoogleAnalytics } from "components/GoogleAnalytics";
+import { Polyfill } from "../components/Polyfill";
 
 function App({ Component, pageProps }: AppProps) {
   return (
@@ -27,6 +28,7 @@ function App({ Component, pageProps }: AppProps) {
       />
       <Component {...pageProps} />
       {siteConfig.gtm_id && <GoogleAnalytics gtag={siteConfig.gtm_id} />}
+      <Polyfill />
     </>
   );
 }

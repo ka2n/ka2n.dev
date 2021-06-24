@@ -3,25 +3,6 @@ import { Element } from "domhandler/lib/node";
 import Image from "next/image";
 import React, { useEffect, useMemo, useState } from "react";
 
-type RequestIdleCallbackHandle = any;
-type RequestIdleCallbackOptions = {
-  timeout: number;
-};
-type RequestIdleCallbackDeadline = {
-  readonly didTimeout: boolean;
-  timeRemaining: () => number;
-};
-
-declare global {
-  interface Window {
-    requestIdleCallback: (
-      callback: (deadline: RequestIdleCallbackDeadline) => void,
-      opts?: RequestIdleCallbackOptions
-    ) => RequestIdleCallbackHandle;
-    cancelIdleCallback: (handle: RequestIdleCallbackHandle) => void;
-  }
-}
-
 /** 本文を表示するコンポーネント
  *
  * ## features
