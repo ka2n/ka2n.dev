@@ -63,10 +63,10 @@ export const EntryBody = ({
             if (!src) return;
             const size = sizeFromImgixURL(src);
             const { alt } = parseAlt(props["alt"]);
-            props = { ...props, alt };
-
             if (size) props = { ...props, width: size.w, height: size.h };
-            return <img {...props} />;
+
+            // eslint-disable-next-line @next/next/no-img-element
+            return <img {...props} alt={alt} loading="lazy" />;
           }
         }
       },

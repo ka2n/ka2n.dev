@@ -10,7 +10,7 @@ export const CollectionCard = ({
     "id" | "title" | "description" | "entries" | "eyecatch" | "slug"
   >;
 }) => (
-  <div className="rounded overflow-hidden border-4 border-double bg-white">
+  <div className="rounded overflow-hidden border-4 border-double bg-white link-overlay">
     {collection.eyecatch && (
       <div className="relative h-24 w-full overflow-hidden">
         <Image
@@ -18,6 +18,7 @@ export const CollectionCard = ({
           layout="fill"
           objectFit="cover"
           unoptimized
+          alt=""
         />
       </div>
     )}
@@ -25,7 +26,7 @@ export const CollectionCard = ({
       href={`/c/[slug]`}
       as={`/c/${encodeURIComponent(collection.slug ?? collection.id)}`}
     >
-      <a>
+      <a className="link-overlay-link">
         <div className="px-4 py-2 space-y-2">
           <h3 className="text-palt tracking-wider text-base text-gray-900 font-semibold">
             {collection.title}

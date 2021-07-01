@@ -3,6 +3,7 @@ import clsx from "clsx";
 import NextLink from "next/link";
 import React from "react";
 import { Footer } from "./Footer";
+import Image from "next/image";
 
 export const Layout: React.FC<{
   site: SiteConfig;
@@ -24,9 +25,9 @@ export const Layout: React.FC<{
         <div className="bg-pink-700 text-white px-4">
           <div className="max-w-screen-md mx-auto text-base">
             現在プレビューモードを表示しています
-            <a className="ml-4 text-sm" href="/api/exit-preview">
-              [終了する]
-            </a>
+            <NextLink href="/api/exit-preview" passHref>
+              <a className="ml-4 text-sm">[終了する]</a>
+            </NextLink>
           </div>
         </div>
       )}
@@ -41,12 +42,14 @@ export const Layout: React.FC<{
           <NextLink href="/">
             <a>
               {site.logo && site.logo_size ? (
-                <img
+                <Image
                   src={site.logo?.url}
                   className="object-contain object-left"
                   width={site.logo_size.split(":")[0]}
                   height={site.logo_size.split(":")[1]}
                   alt={site.title}
+                  unoptimized
+                  loading="eager"
                 />
               ) : (
                 site.title

@@ -81,7 +81,7 @@ const useShuffleButton = (
 
     outputRef.current?.focus();
     outputRef.current?.select();
-  }, []);
+  }, [inputRef, outputRef]);
 
   return { result, onClick };
 };
@@ -94,7 +94,7 @@ const useCopyButton = (copySourceRef: React.RefObject<HTMLTextAreaElement>) => {
     if (copy(copySourceRef.current.value)) {
       setCopied(true, 2500);
     }
-  }, []);
+  }, [copySourceRef, setCopied]);
 
   return { copied, onClick };
 };

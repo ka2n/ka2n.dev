@@ -1,6 +1,12 @@
 import { ImageRef } from "APIClient";
 import Image from "next/image";
-export function PageLevelEyeCatch({ image }: { image: ImageRef }) {
+export function PageLevelEyeCatch({
+  image,
+  alt,
+}: {
+  image: ImageRef;
+  alt?: string;
+}) {
   return (
     <div className="h-64 relative overflow-hidden">
       <Image
@@ -8,6 +14,7 @@ export function PageLevelEyeCatch({ image }: { image: ImageRef }) {
         loading="eager"
         objectFit="cover"
         unoptimized
+        alt={alt ?? ""}
         src={image.url}
       />
     </div>
