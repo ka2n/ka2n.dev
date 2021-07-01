@@ -229,6 +229,7 @@ export type SiteConfig = {
   logo_size?: string;
   favicon?: ImageRef;
   gtm_id?: string;
+  contact_form_url?: string;
 };
 
 export type PageConf = {

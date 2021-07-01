@@ -2,6 +2,7 @@ import { SiteConfig } from "APIClient";
 import clsx from "clsx";
 import NextLink from "next/link";
 import React from "react";
+import { Footer } from "./Footer";
 
 export const Layout: React.FC<{
   site: SiteConfig;
@@ -60,9 +61,7 @@ export const Layout: React.FC<{
       >
         {props.children}
       </main>
-      <footer className="border border-l-0 border-r-0 border-b-0 border-gray-300 bg-white mt-12 p-12 text-center text-sm text-gray-700">
-        {site.base_url}
-      </footer>
+      <Footer site={site} />
     </div>
   );
 };
