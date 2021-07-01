@@ -1,6 +1,7 @@
 import Script from "next/script";
 
 export const GoogleAnalytics = ({ gtag }: { gtag: string }) => {
+  if (process.env.NODE_ENV === "development") return null;
   return (
     <>
       <Analytics gtag={gtag} />
