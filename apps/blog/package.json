@@ -26,6 +26,7 @@
     "@neojp/tailwindcss-line-clamp-utilities": "^1.0.1",
     "axios": "^0.21.1",
     "axios-cache-adapter": "^2.5.0",
+    "base64url": "^3.0.1",
     "canvas": "2.6.1",
     "clsx": "^1.1.1",
     "copy-to-clipboard": "^3.3.1",
@@ -45,15 +46,19 @@
     "rehype-plaintext": "^1.0.0",
     "rehype-split-paragraph": "^0.1.1",
     "rehype-stringify": "^8.0.0",
+    "rison": "^0.1.1",
     "typesafe-utils": "^1.13.0",
-    "unified": "^9.1.0"
+    "unified": "^9.1.0",
+    "use-debounce": "^7.0.0"
   },
   "devDependencies": {
     "@types/concurrently": "^6.2.0",
+    "@types/eslint": "^7.2.13",
     "@types/luxon": "^1.27.0",
     "@types/node": "^15.12.4",
     "@types/react": "^17.0.11",
     "@types/react-dom": "^17.0.8",
+    "@types/rison": "^0.0.6",
     "autoprefixer": "^10.2.6",
     "concurrently": "^6.2.0",
     "eslint": "^7.29.0",

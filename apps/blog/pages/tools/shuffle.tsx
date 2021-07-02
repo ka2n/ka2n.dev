@@ -1,8 +1,8 @@
 import { Footer } from "components/Footer";
-import copy from "copy-to-clipboard";
 import { siteConfig } from "lib/site-config";
 import { NextSeo } from "next-seo";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
+import { useCopyButton } from "../../components/hooks/useCopyButton";
 
 const ShufflePage = () => {
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -29,7 +29,11 @@ const ShufflePage = () => {
         <div className="flex space-x-2 w-full">
           <div className="w-full text-center space-y-2">
             <h2>入力欄</h2>
-            <textarea ref={inputRef} className="border-2 w-full" rows={10} />
+            <textarea
+              ref={inputRef}
+              className="border-2 w-full p-1"
+              rows={10}
+            />
           </div>
           <div className="flex">
             <button
@@ -44,7 +48,7 @@ const ShufflePage = () => {
             <textarea
               ref={outputRef}
               readOnly
-              className="border-2 w-full"
+              className="border-2 w-full p-1"
               rows={10}
               value={result}
             />
@@ -86,19 +90,6 @@ const useShuffleButton = (
   return { result, onClick };
 };
 
-const useCopyButton = (copySourceRef: React.RefObject<HTMLTextAreaElement>) => {
-  const [copied, setCopied] = useTemporaryState(false);
-
-  const onClick = useCallback(() => {
-    if (!copySourceRef.current) return;
-    if (copy(copySourceRef.current.value)) {
-      setCopied(true, 2500);
-    }
-  }, [copySourceRef, setCopied]);
-
-  return { copied, onClick };
-};
-
 const shuffle = (input: any[]) => {
   const arr = [...input];
   for (let i = arr.length - 1; i > 0; i--) {
@@ -109,30 +100,3 @@ const shuffle = (input: any[]) => {
   }
   return arr;
 };
-
-function useTemporaryState<S>(initialValue: S | (() => S)) {
-  const mountedRef = useRef<boolean>(true);
-  useEffect(() => {
-    mountedRef.current = true;
-    return () => {
-      mountedRef.current = false;
-    };
-  }, []);
-
-  const timerRef = useRef<any>();
-  const [state, setState] = useState(initialValue);
-
-  const wrappedSetState = useCallback(
-    (v: React.SetStateAction<S>, duration: number) => {
-      timerRef.current && clearTimeout(timerRef.current);
-      timerRef.current = setTimeout(() => {
-        if (!mountedRef.current) return;
-        setState(initialValue);
-      }, duration);
-      return setState(v);
-    },
-    [initialValue]
-  );
-
-  return [state, wrappedSetState] as const;
-}

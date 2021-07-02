@@ -36,7 +36,12 @@ module.exports = {
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      opacity: ["disabled", "focus", "active"],
+      backgroundColor: ["disabled", "focus", "active"],
+      textColor: ["disabled", "focus", "active"],
+      cursor: ["disabled"],
+    },
   },
   plugins: [require("@neojp/tailwindcss-line-clamp-utilities")],
 };
