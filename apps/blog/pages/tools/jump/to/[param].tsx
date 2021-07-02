@@ -8,7 +8,7 @@ import { NextSeo } from "next-seo";
 import NextLink from "next/link";
 import React, { forwardRef, useCallback } from "react";
 import rison from "rison";
-import { QueryEdit, QueryNew } from "..";
+import { QueryEdit, QueryNew } from "../index";
 
 type PathParams = {
   param: string;
@@ -266,3 +266,6 @@ const Link = forwardRef<
     ref={ref}
   />
 ));
+if (process.env.NODE_ENV === "development") {
+  Link.displayName = "Link";
+}

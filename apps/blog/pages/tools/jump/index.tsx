@@ -54,7 +54,7 @@ const JumpPage = () => {
 
       router.push(`/tools/jump/to/${encodeInput(contents, title)}`);
     },
-    [inputRef, titleInputRef]
+    [router, inputRef, titleInputRef]
   );
 
   // Restore last value
