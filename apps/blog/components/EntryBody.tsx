@@ -45,14 +45,16 @@ export const EntryBody = ({
 
             if (!option || option.layout) {
               return (
-                <Image
-                  src={props.src as string}
-                  alt={alt}
-                  layout={option?.layout ?? "responsive"}
-                  width={size.w}
-                  height={size.h}
-                  unoptimized
-                />
+                <div>
+                  <Image
+                    src={props.src as string}
+                    alt={alt}
+                    layout={option?.layout ?? "responsive"}
+                    width={size.w}
+                    height={size.h}
+                    unoptimized
+                  />
+                </div>
               );
             }
           } else {

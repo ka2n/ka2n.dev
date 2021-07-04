@@ -29,7 +29,7 @@ const processHTMLAST = async (input: string): Promise<string> =>
     .use(parseHTML, { fragment: true })
     .use(rehypePluginCode)
     .use(rehypeShiki, {
-      highlighter: await shiki.getHighlighter({ theme: "light-plus" }),
+      highlighter: await shiki.getHighlighter({ theme: "github-light" }),
     })
     .use(html, {
       quoteSmart: true,

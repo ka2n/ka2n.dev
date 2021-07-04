@@ -24,10 +24,7 @@ html {
 
 .entry-body {
   @apply text-base leading-normal break-words;
-
-  & > * + * {
-    @apply mt-0 mb-4;
-  }
+  @apply space-y-4;
 
   & li + li {
     @apply mt-1;
