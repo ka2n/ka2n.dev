@@ -145,10 +145,12 @@ export const getStaticProps: GetStaticProps<HomePageProps, any> = async (
           filters: `pinned[equals]true`,
         })
       ).then(
-        produce((r: CollectionResponse<TopPageEntry>) => {
-          r.contents.forEach((e) => {
-            e.body_plain = formatToPlain(e.body);
-          });
+        produce(async (r: CollectionResponse<TopPageEntry>) => {
+          await Promise.all(
+            r.contents.map(async (e) => {
+              e.body_plain = await formatToPlain(e.body);
+            })
+          );
         })
       )
     )
@@ -170,10 +172,12 @@ export const getStaticProps: GetStaticProps<HomePageProps, any> = async (
       fields: ["title", "slug", "id", "createdAt", "excerpt", "body"],
     })
   ).then(
-    produce((r: CollectionResponse<TopPageEntry>) => {
-      r.contents.forEach((e) => {
-        e.body_plain = formatToPlain(e.body);
-      });
+    produce(async (r: CollectionResponse<TopPageEntry>) => {
+      await Promise.all(
+        r.contents.map(async (e) => {
+          e.body_plain = await formatToPlain(e.body);
+        })
+      );
     })
   );
 

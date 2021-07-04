@@ -126,12 +126,14 @@ export const getStaticProps: GetStaticProps<CollectionProps, CollectionQuery> =
         revalidate: 10,
       };
     }
-    const collection: Collection<RenderedEntry> = produce(
+    const collection: Collection<RenderedEntry> = await produce(
       ret.result.data,
-      (data) => {
-        data.entries.forEach((entry: RenderedEntry) => {
-          entry.body_plain = formatToPlain(entry.body);
-        });
+      async (data) => {
+        await Promise.all(
+          data.entries.map(async (entry: RenderedEntry) => {
+            entry.body_plain = await formatToPlain(entry.body);
+          })
+        );
         return data as Collection<RenderedEntry>;
       }
     );

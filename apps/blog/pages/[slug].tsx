@@ -149,8 +149,10 @@ export const getStaticProps: GetStaticProps<EntryProps, EntryQuery> = async (
     };
   }
 
-  const plainBody = formatToPlain(entry.body);
-  const htmlBody = formatToHTML(entry.body);
+  const [plainBody, htmlBody] = await Promise.all([
+    formatToPlain(entry.body),
+    formatToHTML(entry.body),
+  ]);
   const og_path = `/ogp/${entry.id}?rev=${Date.parse(entry.updatedAt)}`;
 
   return {
