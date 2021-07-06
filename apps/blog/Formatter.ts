@@ -1,14 +1,9 @@
+import { Element, Node, Text } from "hast";
 import parseHTML from "rehype-parse";
-import plain from "server/rehype-to-plain";
-import unified from "unified";
-import html from "rehype-stringify";
 import splitP from "rehype-split-paragraph";
-import rehypeShiki from "@leafac/rehype-shiki";
-import * as shiki from "shiki";
-import { Plugin, Transformer } from "unified";
-import { Node, Root, Text } from "hast";
-// import { visit } from "unist-util-visit";
-import { Element } from "hast";
+import html from "rehype-stringify";
+import plain from "server/rehype-to-plain";
+import unified, { Plugin, Transformer } from "unified";
 const visit = require("unist-util-visit");
 
 export const formatToPlain = async (bodyHTML: string) =>
@@ -28,9 +23,9 @@ const processHTMLAST = async (input: string): Promise<string> =>
   unified()
     .use(parseHTML, { fragment: true })
     .use(rehypePluginCode)
-    .use(rehypeShiki, {
-      highlighter: await shiki.getHighlighter({ theme: "github-light" }),
-    })
+    // .use(rehypeShiki, {
+    //   highlighter: await shiki.getHighlighter({ theme: "github-light" }),
+    // })
     .use(html, {
       quoteSmart: true,
       tightSelfClosing: true,
