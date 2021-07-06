@@ -36,26 +36,48 @@ html {
   & a {
     @apply text-blue-600 font-semibold hover:underline;
   }
+
+  & a.anchor {
+    float: left;
+    line-height: 1;
+    margin-left: -20px;
+    padding-right: 4px;
+    @apply text-gray-500;
+  }
+
+  & .anchor .icon-link {
+    visibility: hidden;
+  }
+
+  & h1:hover .anchor .icon-link,
+  & h2:hover .anchor .icon-link,
+  & h3:hover .anchor .icon-link,
+  & h4:hover .anchor .icon-link,
+  & h5:hover .anchor .icon-link,
+  & h6:hover .anchor .icon-link {
+    visibility: visible;
+  }
+
   & strong a {
     @apply font-bold;
   }
   & h1 {
-    @apply leading-tight border-b text-4xl font-semibold mb-4 mt-6 pb-2;
+    @apply leading-tight border-b text-4xl font-semibold mb-4 mt-4 pt-2 pb-2;
   }
   & h2 {
-    @apply leading-tight border-b text-2xl font-semibold mb-4 mt-6 pb-2;
+    @apply leading-tight border-b text-2xl font-semibold mb-4 mt-4 pt-2 pb-2;
   }
   & h3 {
-    @apply leading-snug text-lg font-semibold mb-4 mt-6;
+    @apply leading-snug text-lg font-semibold mb-4 mt-4 pt-2;
   }
   & h4 {
-    @apply leading-none text-base font-semibold mb-4 mt-6;
+    @apply leading-none text-base font-semibold mb-4 mt-4 pt-2;
   }
   & h5 {
-    @apply leading-tight text-sm font-semibold mb-4 mt-6;
+    @apply leading-tight text-sm font-semibold mb-4 mt-4 pt-2;
   }
   & h6 {
-    @apply leading-tight text-sm font-semibold text-gray-600 mb-4 mt-6;
+    @apply leading-tight text-sm font-semibold text-gray-600 mb-4 mt-4 pt-2;
   }
 
   & blockquote {

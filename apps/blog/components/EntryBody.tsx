@@ -2,6 +2,8 @@ import parse, { attributesToProps } from "html-react-parser";
 import { Element } from "domhandler/lib/node";
 import Image from "next/image";
 import React, { useEffect, useMemo, useState } from "react";
+import { CgLink } from "react-icons/cg";
+import clsx from "clsx";
 
 /** 本文を表示するコンポーネント
  *
@@ -70,6 +72,17 @@ export const EntryBody = ({
             // eslint-disable-next-line @next/next/no-img-element
             return <img {...props} alt={alt} loading="lazy" />;
           }
+        }
+
+        if (node.tagName === "a" && parent?.tagName.indexOf("h") === 0) {
+          let props: JSX.IntrinsicElements["a"] = attributesToProps(
+            node.attribs
+          );
+          return (
+            <a {...props}>
+              <CgLink className="icon icon-link" />
+            </a>
+          );
         }
       },
     });

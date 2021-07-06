@@ -7,6 +7,7 @@ import splitP from "rehype-split-paragraph";
 import html from "rehype-stringify";
 import plain from "server/rehype-to-plain";
 import unified, { Plugin, Transformer } from "unified";
+import autolink from "rehype-autolink-headings";
 const visit = require("unist-util-visit");
 
 export const formatToPlain = async (bodyHTML: string) =>
@@ -30,13 +31,19 @@ const processHTMLAST = async (input: string): Promise<string> =>
     // .use(rehypeShiki, {
     //   highlighter: await shiki.getHighlighter({ theme: "github-light" }),
     // })
+    .use(splitP, {
+      cleanParagraph: true,
+    })
+    .use(autolink, {
+      behavior: "prepend",
+      properties: {
+        className: ["anchor"],
+      },
+    })
     .use(html, {
       quoteSmart: true,
       tightSelfClosing: true,
       closeSelfClosing: true,
-    })
-    .use(splitP, {
-      cleanParagraph: true,
     })
     .processSync(input)
     .toString();
