@@ -1,11 +1,11 @@
-import React from "react";
-import { AppProps } from "next/app";
-import "css/index.css";
-import { DefaultSeo } from "next-seo";
-import { siteConfig } from "lib/site-config";
-import { isTruthy } from "typesafe-utils";
 import { GoogleAnalytics } from "components/GoogleAnalytics";
-import { Polyfill } from "../components/Polyfill";
+import "css/index.css";
+import { siteConfig } from "lib/site-config";
+import { DefaultSeo } from "next-seo";
+import { AppProps } from "next/app";
+import Head from "next/head";
+import React, { useEffect, useRef, useState } from "react";
+import { isTruthy } from "typesafe-utils";
 
 function App({ Component, pageProps }: AppProps) {
   return (
@@ -28,9 +28,38 @@ function App({ Component, pageProps }: AppProps) {
       />
       <Component {...pageProps} />
       {siteConfig.gtm_id && <GoogleAnalytics gtag={siteConfig.gtm_id} />}
-      <Polyfill />
+      <HighlightJS />
     </>
   );
 }
+
+declare global {
+  interface Window {
+    hljs?: any;
+  }
+}
+
+const HighlightJS = () => {
+  const hydrated = useRef(false);
+  const [, setRender] = useState(false);
+  useEffect(() => {
+    if (!hydrated.current) {
+      hydrated.current = true;
+      setRender(true);
+    }
+  }, []);
+
+  return (
+    <>
+      <Head>
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.0.0/styles/github.min.css"
+          media={!hydrated.current ? "print" : "all"}
+        />
+      </Head>
+    </>
+  );
+};
 
 export default App;

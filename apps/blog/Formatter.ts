@@ -1,4 +1,7 @@
 import { Element, Node, Text } from "hast";
+import fromParse5 from "hast-util-from-parse5";
+import hljs from "highlight.js";
+import parse5 from "parse5";
 import parseHTML from "rehype-parse";
 import splitP from "rehype-split-paragraph";
 import html from "rehype-stringify";
@@ -23,6 +26,7 @@ const processHTMLAST = async (input: string): Promise<string> =>
   unified()
     .use(parseHTML, { fragment: true })
     .use(rehypePluginCode)
+    .use(rehypePluginHighlight)
     // .use(rehypeShiki, {
     //   highlighter: await shiki.getHighlighter({ theme: "github-light" }),
     // })
@@ -58,6 +62,35 @@ const rehypePluginCode: Plugin = function (options: any): Transformer {
       codeElem.properties ??= {};
       codeElem.properties.className ??= [];
       (codeElem.properties.className as string[]).push(`language-${lang}`);
+    }
+  }
+
+  return function transformer(tree: Node): void {
+    visit(tree, "element", visitor);
+  };
+};
+
+const rehypePluginHighlight: Plugin = function (options: any): Transformer {
+  function visitor(node: Element) {
+    if (node.tagName === "pre") {
+      const codeElem = node.children.find(
+        (child) => child.tagName === "code"
+      ) as Element;
+      if (!codeElem || !(codeElem.children?.[0]?.type === "text")) return;
+
+      const classNames = codeElem.properties?.className as string[] | undefined;
+      if (!classNames) return;
+      const lang = classNames.find((cn) => cn.match(/language-(.+)/));
+      if (lang) {
+        const value = hljs.highlightAuto(codeElem.children[0].value).value;
+        if (value) {
+          codeElem.children = [
+            fromParse5(
+              parse5.parseFragment(value, { sourceCodeLocationInfo: true })
+            ) as any,
+          ];
+        }
+      }
     }
   }
 
