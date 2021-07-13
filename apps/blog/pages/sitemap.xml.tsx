@@ -1,5 +1,5 @@
-import { NextPage, GetServerSideProps } from "next";
 import { APIClient, Data } from "APIClient";
+import { GetServerSideProps } from "next";
 
 const createSitemap = (
   pages: {
@@ -62,6 +62,8 @@ export const getServerSideProps: GetServerSideProps = async ({ res, req }) => {
         loc: `https://${hostname}/`,
         lastmod: indexModDate ? new Date(indexModDate) : undefined,
       },
+      { loc: "https://${hostname}/tools/shuffle" },
+      { loc: "https://${hostname}/tools/jump" },
       ...latestEntries.contents.map((entry) => ({
         loc: `https://${hostname}/${encodeURIComponent(
           entry.slug ?? entry.id
