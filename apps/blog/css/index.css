@@ -25,6 +25,10 @@ html {
 .entry-body {
   @apply text-base leading-normal break-words;
 
+  & p + p {
+    @apply mt-4;
+  }
+
   & li + li {
     @apply mt-1;
   }
