@@ -66,10 +66,10 @@ html {
     @apply font-bold;
   }
   & h1 {
-    @apply leading-tight border-b text-4xl font-semibold mb-4 mt-4 pt-2 pb-2;
+    @apply leading-tight border-b text-4xl font-semibold mb-6 mt-4 pt-2 pb-2;
   }
   & h2 {
-    @apply leading-tight border-b text-2xl font-semibold mb-4 mt-4 pt-2 pb-2;
+    @apply leading-tight border-b text-2xl font-semibold mb-6 mt-4 pt-2 pb-2;
   }
   & h3 {
     @apply leading-snug text-lg font-semibold mb-4 mt-4 pt-2;
@@ -101,14 +101,14 @@ html {
   }
 
   & ul {
-    @apply text-base pl-8 list-disc list-inside;
+    @apply text-base pl-8 list-disc list-inside my-4;
   }
   & ol {
-    @apply text-base pl-8 list-decimal list-inside;
+    @apply text-base pl-8 list-decimal list-inside my-4;
   }
 
   & table {
-    @apply text-base border-gray-600;
+    @apply text-base border-gray-600 my-4;
   }
 
   & th {
