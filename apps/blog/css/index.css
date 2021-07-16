@@ -46,10 +46,12 @@ html {
     line-height: 1;
     margin-left: -20px;
     padding-right: 4px;
-    @apply text-gray-500;
+    @apply text-gray-900;
   }
 
   & .anchor .icon-link {
+    width: 18px;
+    height: 18px;
     visibility: hidden;
   }
 
