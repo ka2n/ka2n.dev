@@ -72,7 +72,7 @@ html {
     @apply leading-tight border-b text-2xl font-semibold mb-4 mt-6 pt-2 pb-2;
   }
   & h3 {
-    @apply leading-snug text-lg font-semibold mb-4 mt-5 pt-2;
+    @apply leading-snug text-xl font-semibold mb-4 mt-5 pt-2;
   }
   & h4 {
     @apply leading-none text-base font-semibold mb-4 mt-5 pt-2;
