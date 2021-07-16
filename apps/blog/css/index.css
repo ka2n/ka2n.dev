@@ -66,22 +66,22 @@ html {
     @apply font-bold;
   }
   & h1 {
-    @apply leading-tight border-b text-4xl font-semibold mb-6 mt-4 pt-2 pb-2;
+    @apply leading-tight border-b text-4xl font-semibold mb-4 mt-6 pt-2 pb-2;
   }
   & h2 {
-    @apply leading-tight border-b text-2xl font-semibold mb-6 mt-4 pt-2 pb-2;
+    @apply leading-tight border-b text-2xl font-semibold mb-4 mt-6 pt-2 pb-2;
   }
   & h3 {
-    @apply leading-snug text-lg font-semibold mb-4 mt-4 pt-2;
+    @apply leading-snug text-lg font-semibold mb-4 mt-5 pt-2;
   }
   & h4 {
-    @apply leading-none text-base font-semibold mb-4 mt-4 pt-2;
+    @apply leading-none text-base font-semibold mb-4 mt-5 pt-2;
   }
   & h5 {
-    @apply leading-tight text-sm font-semibold mb-4 mt-4 pt-2;
+    @apply leading-tight text-sm font-semibold mb-4 mt-5 pt-2;
   }
   & h6 {
-    @apply leading-tight text-sm font-semibold text-gray-600 mb-4 mt-4 pt-2;
+    @apply leading-tight text-sm font-semibold text-gray-600 mb-4 mt-5 pt-2;
   }
 
   & blockquote {
