@@ -1,9 +1,12 @@
-import parse, { attributesToProps } from "html-react-parser";
 import { Element } from "domhandler/lib/node";
+import parse, { attributesToProps } from "html-react-parser";
+import {
+  cancelIdleCallback,
+  requestIdleCallback,
+} from "next/dist/client/request-idle-callback";
 import Image from "next/image";
 import React, { useEffect, useMemo, useState } from "react";
 import { CgLink } from "react-icons/cg";
-import clsx from "clsx";
 
 /** 本文を表示するコンポーネント
  *
@@ -20,10 +23,10 @@ export const EntryBody = ({
     typeof window === "undefined"
   );
   useEffect(() => {
-    const handle = window.requestIdleCallback(() => {
+    const handle = requestIdleCallback(() => {
       setIsReadyToRender(true);
     });
-    return () => window.cancelIdleCallback(handle);
+    return () => cancelIdleCallback(handle);
   }, []);
 
   const body = useMemo(() => {
