@@ -1,5 +1,6 @@
 import { NextApiHandler } from "next";
 import { APIClient, Result } from "APIClient";
+import { withSentry } from '@sentry/nextjs'
 
 const previewHandler: NextApiHandler = async (req, res) => {
   if (!req.query.slug) {
@@ -23,4 +24,4 @@ const previewHandler: NextApiHandler = async (req, res) => {
   res.end("Preview mode enabled");
 };
 
-export default previewHandler;
+export default withSentry(previewHandler);
