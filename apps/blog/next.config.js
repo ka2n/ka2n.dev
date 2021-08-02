@@ -5,18 +5,18 @@
 
 const { withSentryConfig } = require('@sentry/nextjs');
 
+const SENTRY_DSN = process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN;
+
 const moduleExports = {
-  // Your existing module.exports
+  sentry: {
+    disableServerWebpackPlugin: !SENTRY_DSN,
+    disableClientWebpackPlugin: !SENTRY_DSN,
+  },
 };
 
 const SentryWebpackPluginOptions = {
-  // Additional config options for the Sentry Webpack plugin. Keep in mind that
-  // the following options are set automatically, and overriding them is not
-  // recommended:
-  //   release, url, org, project, authToken, configFile, stripPrefix,
-  //   urlPrefix, include, ignore
-
   silent: true, // Suppresses all logs
+  dryRun: process.env.NODE_ENV !== 'production',
   // For all available options, see:
   // https://github.com/getsentry/sentry-webpack-plugin#options.
 };
