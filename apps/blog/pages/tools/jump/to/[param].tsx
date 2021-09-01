@@ -87,7 +87,7 @@ export const getStaticProps: GetStaticProps<JumpToPageProps, PathParams> =
         valid: true,
         title: pageTitle,
         links,
-        new_link: `/tools/jumpd?q=${rison.encode_object({
+        new_link: `/tools/jump?q=${rison.encode_object({
           o: "n",
         } as QueryNew)}`,
         edit_link: `/tools/jump?q=${rison.encode_object({
