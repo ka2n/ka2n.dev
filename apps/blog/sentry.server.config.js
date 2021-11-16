@@ -2,12 +2,14 @@
 // The config you add here will be used whenever the server handles a request.
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 
-import * as Sentry from '@sentry/nextjs';
+import * as Sentry from "@sentry/nextjs";
 
 const SENTRY_DSN = process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN;
-const SENTRY_ENVIRONMENT = process.env.VERCEL_ENV || process.env.NEXT_PUBLIC_VERCEL_ENV || "development";
+const SENTRY_ENVIRONMENT =
+  process.env.VERCEL_ENV || process.env.NEXT_PUBLIC_VERCEL_ENV || "development";
 
 Sentry.init({
+  enabled: false, // wait @sentry/nextjs supports Next.js@12
   dsn: SENTRY_DSN,
   environment: SENTRY_ENVIRONMENT,
   // Adjust this value in production, or use tracesSampler for greater control
