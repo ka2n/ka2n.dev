@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@neojp/tailwindcss-line-clamp-utilities": "^1.0.1",
-    "@sentry/nextjs": "^6.12.0",
+    "@sentry/nextjs": "^6.14.3",
     "axios": "^0.21.1",
     "axios-cache-adapter": "^2.5.0",
     "base64url": "^3.0.1",
