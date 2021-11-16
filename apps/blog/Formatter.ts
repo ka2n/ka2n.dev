@@ -6,10 +6,10 @@ import parseHTML from "rehype-parse";
 import splitP from "rehype-split-paragraph";
 import html from "rehype-stringify";
 import plain from "server/rehype-to-plain";
-import unified, { Plugin, Transformer } from "unified";
+import { unified, Plugin, Transformer } from "unified";
 import autolink from "rehype-autolink-headings";
 import truncate, { Option as TruncateOption } from "rehype-truncate";
-const visit = require("unist-util-visit");
+import { visit } from "unist-util-visit";
 
 export const formatToPlain = async (bodyHTML: string) =>
   unified()
