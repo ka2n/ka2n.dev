@@ -9,7 +9,6 @@ const SENTRY_ENVIRONMENT =
   process.env.VERCEL_ENV || process.env.NEXT_PUBLIC_VERCEL_ENV || "development";
 
 Sentry.init({
-  enabled: false, // wait @sentry/nextjs supports Next.js@12
   dsn: SENTRY_DSN,
   environment: SENTRY_ENVIRONMENT,
   // Adjust this value in production, or use tracesSampler for greater control
