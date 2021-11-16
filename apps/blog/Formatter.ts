@@ -1,4 +1,4 @@
-import { Element, Node, Text } from "hast";
+import { Element, Node, Text, Comment } from "hast";
 import fromParse5 from "hast-util-from-parse5";
 import hljs from "highlight.js";
 import parse5 from "parse5";
@@ -8,6 +8,7 @@ import html from "rehype-stringify";
 import plain from "server/rehype-to-plain";
 import unified, { Plugin, Transformer } from "unified";
 import autolink from "rehype-autolink-headings";
+import truncate, { Option as TruncateOption } from "rehype-truncate";
 const visit = require("unist-util-visit");
 
 export const formatToPlain = async (bodyHTML: string) =>
@@ -22,6 +23,17 @@ export const formatToHTML = async (bodyHTML: string) =>
     async (v, f) => v.then(f),
     Promise.resolve(bodyHTML)
   );
+
+export const formatToRSS = async (
+  bodyHTML: string,
+  option?: { truncate?: TruncateOption }
+) =>
+  unified()
+    .use(parseHTML, { fragment: true })
+    .use(rehypePluginRSS, option)
+    .use(html)
+    .process(bodyHTML)
+    .then((r) => r.toString());
 
 const processHTMLAST = async (input: string): Promise<string> =>
   unified()
@@ -104,4 +116,30 @@ const rehypePluginHighlight: Plugin = function (options: any): Transformer {
   return function transformer(tree: Node): void {
     visit(tree, "element", visitor);
   };
+};
+
+type RehypePluginRSSOption = { truncate?: TruncateOption };
+
+const rehypePluginRSS: Plugin = function (
+  options?: RehypePluginRSSOption
+): Transformer {
+  const truncateOption = options?.truncate ?? { maxChars: 140 };
+  function visitor(node: Element) {
+    removeAttributesForRSS(node);
+  }
+  return function transformer(tree: Node) {
+    visit(tree, "element", visitor);
+    return truncate.call(this, truncateOption)(tree);
+  };
+};
+
+const removeAttributesForRSS = function (
+  node: Node | Element | Comment | Text
+) {
+  if (typeof node.properties === "object" && node.properties) {
+    delete node.properties["style"];
+    delete node.properties["id"];
+    delete node.properties["name"];
+    delete node.properties["rel"];
+  }
 };

@@ -17,6 +17,7 @@ import { formatToPlain } from "Formatter";
 import produce from "immer";
 import { siteConfig } from "lib/site-config";
 import { GetStaticProps, NextPage, PageConfig } from "next";
+import { NextSeo } from "next-seo";
 
 export const config: PageConfig = {};
 
@@ -24,11 +25,12 @@ const Home: NextPage<HomePageProps> = (props) => {
   const { pinnedEntry } = props;
   const site = siteConfig;
   return (
-    <Layout
-      site={site}
-      _container={{ className: "bg-yellow-50" }}
-      _main={{ className: "mx-4" }}
-    >
+    <Layout site={site} _main={{ className: "mx-4" }}>
+      <NextSeo
+        additionalLinkTags={[
+          { rel: "alternate", type: "application/rss+xml", href: "/feed.xml" },
+        ]}
+      />
       <div className="-mx-4 bg-white">
         {site.eyecatch && <PageLevelEyeCatch image={site.eyecatch} />}
         <div className="mx-4">

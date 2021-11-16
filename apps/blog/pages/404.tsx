@@ -8,9 +8,6 @@ const NotFoundPage: NextPage<{}> = (props) => {
   return (
     <Layout
       site={siteConfig}
-      _container={{
-        className: "bg-yellow-50",
-      }}
       _main={{
         className: "flex flex-col items-center justify-start",
       }}
