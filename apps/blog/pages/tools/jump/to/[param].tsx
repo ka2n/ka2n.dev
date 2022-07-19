@@ -51,55 +51,55 @@ export const getStaticPaths: GetStaticPaths<PathParams> = async (ctx) => {
   };
 };
 
-export const getStaticProps: GetStaticProps<JumpToPageProps, PathParams> =
-  async (ctx) => {
-    let param = ctx.params?.param!;
-    if (!param || param === "serviceworker.js") {
-      return {
-        notFound: true,
-      };
-    }
+export const getStaticProps: GetStaticProps<
+  JumpToPageProps,
+  PathParams
+> = async (ctx) => {
+  let param = ctx.params?.param!;
+  if (!param || param === "serviceworker.js") {
+    return {
+      notFound: true,
+    };
+  }
 
-    let parsed: ReturnType<typeof decodeInput>;
-    try {
-      parsed = decodeInput(param);
-    } catch (e) {
-      console.log(param);
-      return {
-        props: {
-          valid: false,
-          human_message: "URLが間違っているようです。",
-          machine_message: e.message,
-        },
-      };
-    }
-
-    const [pageTitle, contents] = parsed;
-    const links: ValidJumpToPageProps["links"] = contents.map(
-      ([url, title]) => ({
-        title: title ?? null,
-        url,
-      })
-    );
-
+  let parsed: ReturnType<typeof decodeInput>;
+  try {
+    parsed = decodeInput(param);
+  } catch (e) {
+    console.log(param);
     return {
       props: {
-        valid: true,
-        title: pageTitle,
-        links,
-        new_link: `/tools/jump?q=${rison.encode_object({
-          o: "n",
-        } as QueryNew)}`,
-        edit_link: `/tools/jump?q=${rison.encode_object({
-          o: "e",
-          v: {
-            title: parsed[0],
-            contents: parsed[1],
-          },
-        } as QueryEdit)}`,
+        valid: false,
+        human_message: "URLが間違っているようです。",
+        machine_message: e instanceof Error ? e.message : `${e}`,
       },
     };
+  }
+
+  const [pageTitle, contents] = parsed;
+  const links: ValidJumpToPageProps["links"] = contents.map(([url, title]) => ({
+    title: title ?? null,
+    url,
+  }));
+
+  return {
+    props: {
+      valid: true,
+      title: pageTitle,
+      links,
+      new_link: `/tools/jump?q=${rison.encode_object({
+        o: "n",
+      } as QueryNew)}`,
+      edit_link: `/tools/jump?q=${rison.encode_object({
+        o: "e",
+        v: {
+          title: parsed[0],
+          contents: parsed[1],
+        },
+      } as QueryEdit)}`,
+    },
   };
+};
 
 const InvalidJumpToPage = (props: InvalidJumpPageProps) => {
   return (

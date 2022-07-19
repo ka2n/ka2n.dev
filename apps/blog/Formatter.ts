@@ -70,7 +70,7 @@ const rehypePluginCode: Plugin = function (options: any): Transformer {
   function visitor(node: Element) {
     if (node.tagName === "pre") {
       const codeElem = node.children.find(
-        (child) => child.tagName === "code"
+        (child) => child.type === "element" && child.tagName === "code"
       ) as Element;
       if (!codeElem || !(codeElem.children?.[0]?.type === "text")) return;
       const textNode: Text = codeElem.children[0];
@@ -93,7 +93,7 @@ const rehypePluginHighlight: Plugin = function (options: any): Transformer {
   function visitor(node: Element) {
     if (node.tagName === "pre") {
       const codeElem = node.children.find(
-        (child) => child.tagName === "code"
+        (child) => child.type === "element" && child.tagName === "code"
       ) as Element;
       if (!codeElem || !(codeElem.children?.[0]?.type === "text")) return;
 
@@ -136,7 +136,7 @@ const rehypePluginRSS: Plugin = function (
 const removeAttributesForRSS = function (
   node: Node | Element | Comment | Text
 ) {
-  if (typeof node.properties === "object" && node.properties) {
+  if ("properties" in node && typeof node["properties"] === "object") {
     delete node.properties["style"];
     delete node.properties["id"];
     delete node.properties["name"];
