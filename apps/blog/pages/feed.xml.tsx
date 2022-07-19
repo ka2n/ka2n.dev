@@ -116,13 +116,15 @@ const renderRSSFeed = (res: ServerResponse, site: Site, entries: Entry[]) => {
           pubDate: formatDate(new Date(lastPublished)),
           lastBuildDate: formatDate(new Date(lastUpdated)),
           item: entries.map(
-            ({ thumbnail, content, pubDate, guid, title, description }) => {
+            ({ thumbnail, content, pubDate, modDate, guid, link, title, description }) => {
               return tidy({
                 guid,
+                link,
                 title,
                 description,
                 "content:encoded": content,
                 pubDate: formatDate(new Date(pubDate)),
+                modDate: modDate ? formatDate(new Date(modDate)) : undefined,
                 "media:thumbnail": thumbnail
                   ? { $: { url: thumbnail } }
                   : undefined,
