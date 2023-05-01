@@ -4,7 +4,7 @@ import {
   cancelIdleCallback,
   requestIdleCallback,
 } from "next/dist/client/request-idle-callback";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import React, { useEffect, useMemo, useState } from "react";
 import { CgLink } from "react-icons/cg";
 

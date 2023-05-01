@@ -3,7 +3,7 @@ import clsx from "clsx";
 import NextLink from "next/link";
 import React from "react";
 import { Footer } from "./Footer";
-import Image from "next/image";
+import Image from "next/legacy/image";
 
 export const Layout: React.FC<{
   site: SiteConfig;

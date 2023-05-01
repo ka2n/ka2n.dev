@@ -1,6 +1,6 @@
 import { Entry, Collection } from "APIClient";
 import NextLink from "next/link";
-import Image from "next/image";
+import Image from "next/legacy/image";
 
 export const CollectionCard = ({
   collection,
