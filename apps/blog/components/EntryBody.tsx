@@ -4,7 +4,7 @@ import {
   cancelIdleCallback,
   requestIdleCallback,
 } from "next/dist/client/request-idle-callback";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import React, { useEffect, useMemo, useState } from "react";
 import { CgLink } from "react-icons/cg";
 
@@ -58,7 +58,10 @@ export const EntryBody = ({
                     width={size.w}
                     height={size.h}
                     unoptimized
-                  />
+                    style={{
+                      maxWidth: "100%",
+                      height: "auto"
+                    }} />
                 </div>
               );
             }

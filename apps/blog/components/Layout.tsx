@@ -3,7 +3,7 @@ import clsx from "clsx";
 import NextLink from "next/link";
 import React from "react";
 import { Footer } from "./Footer";
-import Image from "next/legacy/image";
+import Image from "next/image";
 
 export const Layout: React.FC<{
   site: SiteConfig;
@@ -50,7 +50,10 @@ export const Layout: React.FC<{
                 alt={site.title}
                 unoptimized
                 loading="eager"
-              />
+                style={{
+                  maxWidth: "100%",
+                  height: "auto"
+                }} />
             ) : (
               site.title
             )}

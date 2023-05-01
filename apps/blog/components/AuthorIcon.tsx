@@ -1,6 +1,6 @@
 import { SiteConfig } from "APIClient";
 import clsx from "clsx";
-import Image, { ImageProps } from "next/legacy/image";
+import Image, { ImageProps } from "next/image";
 
 export const AuthorIcon = ({
   site,
@@ -25,7 +25,10 @@ export const AuthorIcon = ({
         src={site.author_icon.url}
         alt={site.author_name}
         {...props}
-      />
+        style={{
+          maxWidth: "100%",
+          height: "auto"
+        }} />
     </div>
   ) : (
     <div className="rounded-full flex items-center justify-center bg-gray-300 text-gray-900 w-16 h-16">

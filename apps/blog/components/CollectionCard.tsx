@@ -1,6 +1,6 @@
 import { Entry, Collection } from "APIClient";
 import NextLink from "next/link";
-import Image from "next/legacy/image";
+import Image from "next/image";
 
 export const CollectionCard = ({
   collection,
@@ -15,11 +15,13 @@ export const CollectionCard = ({
       <div className="relative h-24 w-full overflow-hidden">
         <Image
           src={collection.eyecatch.url}
-          layout="fill"
-          objectFit="cover"
           unoptimized
           alt=""
-        />
+          fill
+          sizes="100vw"
+          style={{
+            objectFit: "cover"
+          }} />
       </div>
     )}
     <NextLink
