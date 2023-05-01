@@ -36,12 +36,12 @@ export const EntryCard = ({
         ></div>
       )}
       <div className="px-4 py-2">
-        <NextLink {...link}>
-          <a className="link-overlay-link">
-            <h3 className="text-palt tracking-wider text-xl text-gray-900 font-bold mb-2 mt-2">
-              {entry.title}
-            </h3>
-          </a>
+        <NextLink {...link} className="link-overlay-link">
+
+          <h3 className="text-palt tracking-wider text-xl text-gray-900 font-bold mb-2 mt-2">
+            {entry.title}
+          </h3>
+
         </NextLink>
         <p className="text-gray-700 text-base">
           {trimText(entry.excerpt ?? entry.body_plain ?? entry.body)}

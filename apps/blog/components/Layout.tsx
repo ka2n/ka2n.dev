@@ -25,8 +25,8 @@ export const Layout: React.FC<{
         <div className="bg-pink-700 text-white px-4">
           <div className="max-w-screen-md mx-auto text-base">
             現在プレビューモードを表示しています
-            <NextLink href="/api/exit-preview" passHref>
-              <a className="ml-4 text-sm">[終了する]</a>
+            <NextLink href="/api/exit-preview" passHref className="ml-4 text-sm">
+              [終了する]
             </NextLink>
           </div>
         </div>
@@ -40,21 +40,21 @@ export const Layout: React.FC<{
       >
         <div className="max-w-screen-md w-full mx-auto">
           <NextLink href="/">
-            <a>
-              {site.logo && site.logo_size ? (
-                <Image
-                  src={site.logo?.url}
-                  className="object-contain object-left"
-                  width={site.logo_size.split(":")[0]}
-                  height={site.logo_size.split(":")[1]}
-                  alt={site.title}
-                  unoptimized
-                  loading="eager"
-                />
-              ) : (
-                site.title
-              )}
-            </a>
+
+            {site.logo && site.logo_size ? (
+              <Image
+                src={site.logo?.url}
+                className="object-contain object-left"
+                width={site.logo_size.split(":")[0]}
+                height={site.logo_size.split(":")[1]}
+                alt={site.title}
+                unoptimized
+                loading="eager"
+              />
+            ) : (
+              site.title
+            )}
+
           </NextLink>
         </div>
       </header>

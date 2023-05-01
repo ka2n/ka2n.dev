@@ -114,8 +114,8 @@ const InvalidJumpToPage = (props: InvalidJumpPageProps) => {
         <p>URLが間違っているようです。</p>
         <p>{JSON.stringify(props.machine_message)}</p>
         <p className="text-sm">
-          <NextLink href={"/tools/jump"}>
-            <a className="text-blue-500 hover:underline">こちら</a>
+          <NextLink href={"/tools/jump"} className="text-blue-500 hover:underline">
+            こちら
           </NextLink>
           から作り直すことができます。
         </p>
@@ -188,7 +188,7 @@ const ValidJumpToPage = (props: ValidJumpToPageProps) => {
         </div>
         <ul className="w-full px-2 pb-20 text-gray-500 hover:text-gray-50 focus-within:text-gray-50 transition-colors duration-500 text-sm flex space-x-2">
           <li className="ml-auto">
-            <NextLink href={props.edit_link} passHref>
+            <NextLink href={props.edit_link} passHref legacyBehavior>
               <Link variant="dark">再編集</Link>
             </NextLink>
           </li>
@@ -205,7 +205,7 @@ const ValidJumpToPage = (props: ValidJumpToPageProps) => {
           </li>
           <li role="presentation">|</li>
           <li>
-            <NextLink href={props.new_link} passHref>
+            <NextLink href={props.new_link} passHref legacyBehavior>
               <Link variant="dark">新しいリンク集を作る</Link>
             </NextLink>
           </li>
