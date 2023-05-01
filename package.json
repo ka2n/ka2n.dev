@@ -2,7 +2,7 @@
   "name": "ka2n",
   "private": true,
   "engines": {
-    "node": "14.x"
+    "node": "18.x"
   },
   "workspaces": [
     "apps/*"

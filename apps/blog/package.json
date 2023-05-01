@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": "14.x"
+    "node": "18.x"
   },
   "scripts": {
     "fetch-site-config": "node lib/fetch-site-config.js",
@@ -31,6 +31,7 @@
     "canvas": "2.6.1",
     "clsx": "^1.1.1",
     "copy-to-clipboard": "^3.3.1",
+    "eslint-config-next": "13.3.2",
     "hast-util-from-parse5": "6",
     "hast-util-to-text": "^2.0.0",
     "highlight.js": "^11.2.0",
@@ -40,10 +41,10 @@
     "konva": "^8.0.4",
     "konva-node": "^0.11.1",
     "luxon": "^2.0.2",
-    "next": "^12.0.4",
+    "next": "13.3.2",
     "next-seo": "^4.26.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
     "react-icons": "^4.2.0",
     "react-string-replace": "^0.4.4",
     "rehype-autolink-headings": "^6.1.0",
@@ -62,7 +63,6 @@
   },
   "devDependencies": {
     "@types/concurrently": "^6.2.1",
-    "@types/eslint": "^7.28.0",
     "@types/luxon": "^2.0.2",
     "@types/node": "^16.7.10",
     "@types/react": "^17.0.19",
@@ -70,8 +70,6 @@
     "@types/rison": "^0.0.7",
     "autoprefixer": "^10.3.4",
     "concurrently": "7.3.0",
-    "eslint": "^7.32.0",
-    "eslint-config-next": "^12.0.4",
     "lost": "^8.3.1",
     "postcss": "^8.3.6",
     "postcss-cli": "^8.3.1",
